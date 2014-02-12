@@ -1,0 +1,214 @@
+%!TEX root = synchrony.tex
+\section{Interactive Consistency With Oral Messages}\label{oralIC}
+In this section, we establish the tight bound for an $( n,m,t )$-system to
+solve \tmem{interactive consistency} with {\tmem{oral messages}}. 
+
+\begin{theorem}
+  \label{consensusOral} It is possible to achieve  interactive consistency
+  in an $( n,m,t )$-system with oral messages  if and only if $n> \max \{ 2m+t,2t+m \}$.
+\end{theorem}
+
+The proof of the theorem contains two parts with a series of lemmas. First, we
+devise an algorithm we call OMIC to show the sufficiency of the theorem.
+And then we show the necessary part based on scenario argument.
+
+\subsection{Algorithm}
+{\namedalgorithm{OMIC}{OMIC($0$):
+\begin{enumeratenumeric}
+%  \item Every process, suppose to be $i$, broadcasts its initial value, and denote the received value sent from $j$ as $v_j^i$. Let $v_i^i$ be the initial value of $i$.
+    \item Every process  broadcasts its initial value.
+    \item Every process receives the messages of the round.
+      Let $v_j^i$ be the value received by $i$ from $j$, $v_i^i$ is the initial value of  $i$.
+  %\item Set $ [ v_1^i, \ldots,  v_n^i ]$ as the output of process $i$
+  \item Process $i$ decides $v_j^i$ as the initial value of process $j$
+\end{enumeratenumeric}
+OMIC($k$), $k>0$:
+\begin{enumeratenumeric}
+  \item Each process acts as a transmitter and sends its value to other
+  $n-1$ processes (receivers).
+  
+  \item Every receiver process uses the value it gets in step $1$ as initial
+  value, and executes OMIC($k-1$).
+  %for one time to get the value other
+  %receivers get in step $1$.
+  
+  \item After running algorithm OMIC($k-1$) in step 2, every receiver
+  process get a vector of values representing what other receivers get from the
+  transmitter, and then uses the majority values as its decision on the initial
+  value of the transmitter process.
+\end{enumeratenumeric}}}
+
+Just like in
+{\cite{lamport1982byzantine}}, we will use \tmem{transmitter} to denote the process
+that wants to transmit its value, and use \tmem{receiver} to denote the process that wants to know the value of the transmitter. 
+
+We first show the correctness of a special case of the algorithm, and then 
+we show the general case by induction.
+The considered special case is interesting because it shows that generally, we can get interactive consistency in two rounds.
+More precisely, we show that in an $( n,m,t)$-system, two rounds are enough to achieve interactive consistency as soon as 
+$n \geqslant 2 ( m+t )$.
+Additional rounds are necessary only when the number of processes is between $2 ( m+t ) - 1$ and $ \max \{ 2m+t,2t+m \}$. Beyond that, Interactive consistency cannot be achieved.
+
+
+\begin{lemma} \label{basicCase}
+  \label{2roundlemma} If $n \geqslant 2 ( m+t )$, then the protocol OMIC($1$) achieves
+  interactive consistency in $2$ rounds.
+\end{lemma}
+
+\begin{proof}
+  Let us fix a process $p$ as a transmitter. If we prove that  each process decides  the
+  initial value of $p$, then the lemma is proved.
+  
+  First suppose $p$ is correct, then all the receivers in the
+  first round will get the initial value of $p$. In the second
+  round when applying OMIC($0$), every receiver gets at most $m$ wrong
+  values for $p$ due to the $m$ faulty processes.
+As $n-1>2m$, each
+  receiver decides the correct initial value of the transmitter.
+  
+  If $p$ is faulty, up to $t$ receivers will get wrong messages
+  in the first round. Then in the second round, running OMIC($0$), every
+  receiver gets at most $t+m-1$ wrong initial values for $p$,
+  $m-1$ from the other faulty processes and $t$ from the receivers that have received wrong messages.
+   Since $n>2 (t+m)$, $n-(t+m-1) > (t-m+1)$, the receiver receives a majority of the correct value and decides correctly.
+\end{proof}
+
+We now consider the case where additional rounds are necessary to achieve interactive consistency.
+
+\begin{lemma} \label{reliableCorretness}
+  \label{reliablecase}
+  For any $k \geqslant 1$, if $n>2m+k$, if the transmitter is correct
+ then every receiver in  OMIC($k$) decides on the initial value of the transmitter.
+\end{lemma}
+
+\begin{proof}
+  The proof is by induction on $k$. Suppose the transmitter is correct. The
+  lemma is trivial for $k=1$.
+In the first round, all receivers get the initial value of the transmitter. In the second
+  round when applying OMIC($0$), every receiver gets at most $m$ wrong
+  values for $p$ due to the $m$ faulty processes.
+ As $n-1>2m$, each
+  receiver decides the correct initial value of the transmitter.
+
+  We assume now the
+  lemma is true for $k-1$ ($k>0$), and prove it for $k$.
+  
+%  Assume  that $n>2m+k$, then $n>2m+(k-1)$.
+%  By induction hypothesis,  if the transmitter is correct
+% then every receiver in  OMIC($k-1$) decides on the initial value of the transmitter.
+ 
+
+%Consider now OMIC($k$).
+  In the first step of the algorithm, the correct transmitter sends its value
+  to the other $n-1$ receivers among which up to $m$ are faulty. 
+  These receivers act as transmitters in OMIC($k-1$). 
+  By induction hypothesis, if a transmitter is correct, every receiver in OMOC($k-1$)
+  decides on the initial value of the transmitter.
+  Then each receiver in OMIC($k$)  gets at least $n-1-m$ copies of the
+  initial value in Step $3$. Since there are only $m$ faulty processes,
+  $n-1-m>m+k-1 \geqslant m$, a majority of the values obtained  in Step $3$
+  are the initial values. That is to say every process obtains the initial
+  value of every correct process.
+\end{proof}
+
+\begin{lemma}
+  \label{mainlemma}For any $k \geqslant 1$, OMIC($k$) ensures
+  interactive consistency if $k \leqslant m$, $n>\min(2m+k,2m+2t-k)$.
+\end{lemma}
+
+\begin{proof}
+  The proof is also by induction on $k$. If $k=1$, the condition is equal to $n>2m+2t-1$.
+  Therefore by Lemma \ref{2roundlemma}, the lemma is proved.
+  Now suppose
+  the lemma is correct for $k-1$. We prove it for $k$.
+  
+  We first assume the transmitter is correct. Since $n>2m+k$, by lemma
+  \ref{reliablecase} OMIC($k$) guarantees each process decides on  the initial
+  value of the transmitter. So we have to verify the case in which
+  the transmitter is faulty.
+  
+  If the transmitter is faulty, then at most $m-1$ of the receivers are
+  faulty. Since $k-1<m-1$, $n-1>2m+ ( k-1 )$, and $n-1>2 ( m-1 ) +2t- (
+  k-1 )$, OMIC($k-1$) ensures interactive consistency by induction hypothesis.
+  Every receiver  knows the values that other receivers received in Step 1. As
+  $n-1>2m+2t-k-1 \geqslant 2t$, the majority of the values the transmitter
+  sent is the initial value of the transmitter. So all the processes decide
+  the same correct value.
+\end{proof}
+
+
+
+\begin{lemma}\label{algICO1}
+  If $m \geqslant t$ and $n>2m+t$, it is possible to achieve interactive consistency in an $(n,m,t)$-system 
+  in $t+1$ rounds.
+\end{lemma}
+
+\begin{proof}
+  Since $m \geqslant t$ and $n>2m+t$, we have $n>2t+t$ and $n >2m+2t-t$. Take
+  $k=t$, by Lemma \ref{mainlemma} above, OMIC($m$) ensures
+  interactive consistency. 
+\end{proof}
+
+\begin{lemma}\label{algICO2}
+  If $t \geqslant m$ and $n>2t+m$, it is possible to achieve interactive consistency in an $(n,m,t)$-system 
+ in $m+1$ round.
+\end{lemma}
+
+\begin{proof}
+  Since $t \geqslant m$ and $n>2t+m$, we have $n>2t+m$ and $n >2m+2t-m$. Take
+  $k=m$, by lemma \ref{mainlemma} above, OMIC($t$) ensures
+  interactive consistency.
+\end{proof}
+
+From the above two lemmas, it is easy to deduce the sufficient part of 
+Theorem~\ref{consensusOral}. 
+If $m \geqslant t$ we gets the result by Lemma~\ref{algICO1} and  if $m<t$ by Lemma~\ref{algICO2}.
+
+
+
+\subsection{Impossibility}
+
+Now let us turn our attention to the necessary property of the theorem. We study two cases: $m \geqslant t$
+and $t \geqslant m$. For each case, we proceed by contradiction.
+We construct two scenarios such that there is a set of processes for which these two scenarios are indistinguishable. 
+In the first scenario they have to decide 0 for that set of processes, while in the second scenario they have to decide 1.
+
+
+
+
+
+
+\begin{lemma}\label{imposs:1}
+  If $m \geqslant t$ and $n \leqslant 2m+t$, it is impossible to achieve interactive consistency in an $(n,m,t)$-system with oral messages.
+  \end{lemma}
+
+Due to space limitations, the proof is moved to Appendix \ref{app:imposs:1}. Here we describe the intuition behind the proof.
+  $P$ can be partitioned into three non-empty sets $A$, $B$, and $C$,
+  with $| A | \leqslant m$, $| B | \leqslant m$, $| C | \leqslant t$. 
+  
+  We define two scenarios $\alpha$ and $\beta$.
+  In $\alpha$, all processes have 0 as initial values.
+  Processes in $B$ are faulty and send  to processes $C$ messages
+  pretending that processes in $A$ have 1 as initial value.
+  
+  In $\beta$, processes in $A$ have 1 as initial value and all  others processes have 0 as initial value.
+  Processes in $A$ are faulty and send to processes in $C$ messages 
+  pretending that processes in $A$ have 0 as initial value (see Figure~\ref{sc1}).
+  
+  In the two scenarios, processes in $C$ get the same messages, but in the first scenario 
+  they have to decide 0 for processes in $A$ and $1$ in the second scenario leading to a contradiction.
+
+
+\begin{lemma}\label{imposs:2}
+  If $t \geqslant m$ and $n \leqslant 2t+m$, it is impossible to achieve interactive consistency in an $(n,m,t)$-system with oral messages.\end{lemma}
+
+The proof of this Lemma is similar to the above one. Duo to space limitations, it is moved to Appendix \ref{app:imposs:2}.
+
+From the above two lemmas, it is easy to deduce the necessary property of 
+Theorem~\ref{consensusOral}. 
+If $m \geqslant t$ we get the result by Lemma~\ref{imposs:1} and  if $m<t$ by Lemma~\ref{imposs:2}.
+
+
+
+
+

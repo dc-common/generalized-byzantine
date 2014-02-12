@@ -1,0 +1,106 @@
+%!TEX root = synchrony.tex
+\section{An Upper Bound For Consensus}\label{sec:consensus}
+
+In this section, we establish an upper bound for binary consensus with oral messages. 
+In binary consensus, processes do not need to agree on the initial value of each process. It is enough that they agree on some value to reach agreement.
+So in our setting, binary consensus is easier than interactive consistency.
+
+\begin{theorem} \label{thmConsensus}
+It is possible to achieve binary consensus in an  $(n,m,t)$-system with oral messages if  $n>2m+t$.
+\end{theorem}
+
+We give a new algorithm OMC which is slightly different from OMIC. OMC achieves binary consensus.
+The basic idea in OMC consists in adding a \tmem{feedback step} to inform the transmitter about the guessed value other processes agreed on. The agreement is also based on majority selection. When $n$ is only greater than $2m+t$ (not max$\{2m+t,2t+m\}$), the majority value in algorithm OMIC may be several different values.
+So we assume a selection function \tmem{Major} to fix such situations. 
+\tmem{Major} takes a list as input. 
+The requirement we make for this function is that it alway returns the majority value in the input list. 
+If there are several values with the same highest count in the input, \tmem{Major} will return one of them. 
+The function is deterministic. The same input list (the order of the elements can be different) leads to the same output. 
+Each process $i$ maintains a list $V_i$ to record the
+guessed values for all processes.
+
+{\namedalgorithm{OMC}{OMC($0$):
+\begin{enumeratenumeric}
+  \item Every process broadcasts its initial value.
+  
+  \item Every process, for example $i$ uses the value it receives from process $j(\neq i)$ as
+  $v_{j}$, or uses $\varnothing$ if it receives nothing. Let $v_i$ denote the initial value of $i$. 
+  \item Take $Major([ v_{1} ,\ldots ,v_{n} ])$ as output of $i$.
+\end{enumeratenumeric}
+
+OMC($k$), $k>0$:
+\begin{enumeratenumeric}
+  \item Each process acts as a transmitter and sends its value to other
+  $n-1$ processes (receivers).
+  \item Every receiver process uses the value it gets in step $1$ as initial
+  value, and executes OMC($k-1$) for one time to decide a value as a guessed initial value for the transmitter. After this, receiver $i$ appends the guessed values into $V_i$. Note that there are $n-1$ transmitters different from $i$, so $V_i$ now has $n-1$ values.
+  \item \tmem{Feedback step}:
+  every receiver $i$ sends its guessed initial value for transmitter $j$ to $j$. $j$ add the majority of the received values in this round into $V_i$ as the replacement of its initial value.
+  \item Process $i$ takes $Major(V_i)$ as its output.
+\end{enumeratenumeric}}}
+
+As we already showed in Section \ref{oralIC}, we cannot guarantee interactive consistency with OMIC with only $n>2m+t$. 
+However we ensure interesting property in OMC with respect to $n>2m+t$. 
+More specifically, when $n>2m+t$, we can prove that the elements in list $V_i$ are the same for different $i$, but the values in $V_i$ are not always equal to the initial values of the transmitters. 
+We show this by induction as in Section \ref{oralIC}. 
+
+\begin{lemma}\label{cons:2}
+If $n\geqslant 2m+2t$, then  OMC(1) achieves  binary consensus in $2$ rounds in an $(n,m,t)$-system.
+\end{lemma}
+
+\begin{proof}
+As we have shown in Lemma~\ref{basicCase}, the guessed value in Step $2$ 
+is the same as the initial value of transmitter when $n \geqslant 2m+2t$. 
+As the output of each process is the result of applying \tmem{Major} to the list consisting of the initial values the properties of binary  consensus are satisfied.
+\end{proof}
+
+\begin{lemma}
+For any $k\geqslant 1$, if $n>2m+k$, OMC($k$) ensures that the guessed value in Step $2$ for a correct transmitter is the initial value of the transmitter.
+\end{lemma}
+
+\begin{proof}
+In the case $k=1$, the guessed value is the output of OMC(0) and  it is equal to the initial value of the correct transmitter since $n-1>2m$. Suppose the lemma is proved for $k-1$. Let us prove it for $k$.
+
+In OMC($k$), the correct transmitter $i$ first sends its value to the other $n-1$ receivers. 
+By induction hypothesis, the initial value of correct process will be guessed  correctly in OMC($k-1$). 
+Since there are at least $n-1-m(>m)$ correct receivers, the decision values of all the receivers are the initial value of the transmitter.
+\end{proof}
+
+\begin{lemma}\label{cons:corelemma}
+  For any $k \geqslant 1$, OMC($k$) achieves binary consensus if $n>\max\{2m+k,2m+2t-k\}$.
+\end{lemma}
+
+Note that this lemma is different from Lemma~\ref{mainlemma} in the sense that $k\leqslant m$ is not required.
+
+\begin{proof}
+We proof this lemma by induction on $k$. The basic case $k=1$ is the same as in Lemma~\ref{cons:2}.
+Hence, we suppose the lemma is proved for $k-1$, and we prove it for $k$.
+
+If the transmitter is correct, every receiver decides the same guessed value in step $2$ for $n>2m+t$. 
+If the transmitter is faulty, then
+by induction hypothesis, every receiver  guesses the same value for every transmitter. 
+In the \tmem{feedback step}, the transmitter will receive $n-1$ copies of the guessed value. 
+Since there are at most $m$ faulty receivers, and $n-1>2m$, the transmitter 
+also gets the same guessed value in Step $3$. 
+So the final list $V_i$ is the same for different $i$ proving the agreement property. 
+
+Now we consider  the validity property.
+Suppose all input values are the same $v(\in \{0,1\})$. 
+Since $n>2m+k$, by the last lemma, the guessed value for correct transmitters is the real initial value $v$. So there are at least $n-m (> m)$ elements in $V_i$ with value $v$. Therefore, \tmem{Major}($V_i$) is $v$. 
+The validity property is also proved.
+\end{proof}
+
+With this core lemma, it is easy to prove Theorem~\ref{thmConsensus}.
+\begin{proof}{(Proof of Theorem~\ref{thmConsensus})}
+We prove the theorem by taking $k$ equal to $t$ in Lemma~\ref{cons:corelemma}.
+\end{proof}
+
+\begin{remark}
+Though we have proved an upper bound for consensus, we know that this bound is not tight. 
+For example, binary consensus is achievable with $m=1$ and $n=2m+t$. 
+However, we conjecture that $2m+t$ is the tight bound if $m \geqslant n/3$.
+\end{remark}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: synchrony
+%%% End: 

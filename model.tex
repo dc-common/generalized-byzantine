@@ -1,0 +1,230 @@
+%!TEX root = synchrony.tex
+\section{Model and definitions}
+ 
+We consider a synchronous distributed system $P$ of $n$ processes. 
+Each process is
+identified by a unique id $p \in \{ 1, \ldots ,n \}$.  
+As in {\cite{lamport1982byzantine,toueg1984simple}}, a
+{\tmem{synchronous computation}} proceeds in a sequence of $rounds$.    
+ The nodes communicate
+with each other by sending messages round by round within a fully
+connected 
+point-to-point network.
+In each round, every process first sends at most one message to every other process, possibly to all processes, 
+and then $p$ receives the messages sent
+by other  processes. The communication channels are authenticated,
+that is to say the identity of the sender is known to the recipient. 
+
+Each process has
+an input register with its initial value from some domain $D$, and an
+output register  
+which records the outcome of the computation.
+%The domain of input values 
+Each process writes its output register at most once. When a
+process writes its output register, we say that the process decides.
+We model an algorithm as a set of deterministic automata, one for
+every process in the system. 
+Thus, the actions of a process are entirely determined by the
+algorithm, the initial value and the messages it receives from others. 
+In this paper we assume that processes always follow their protocol.
+
+
+\vspace{1em}
+\noindent{\bf Failures. }
+In short, we consider a particular Byzantine model in which some faulty processes
+may lie to others processes: even if the faulty process
+follows its code, $p$ can send to some other processes Byzantine
+messages, i.e. messages that result from $p$ not following the protocol.
+
+More precisely, we assume an adaptive (or dynamic) adversary
+which introduces Byzantine faults in transmission: these faults may
+only come from faulty processes.
+
+Here, up to $m$ of the
+processes are 
+faulty and controlled by the adversary. In each round, the adversary chooses
+up to $t$ communication links from each faulty process that
+will carry Byzantine messages. 
+
+
+An instance of our model of $n$ processes with $m$ 
+faulty processes such that in each round up to $t$ communication faults
+on links from faulty processes may occur will be called an {\tmem{$( n,m,t )$-system}. In this paper, we always assume $m>0$, $t>0$, and $n \geqslant
+max\{m,t\}$. We also assume $n>1$, the case $n=1$ being trivial. 
+
+\vspace{1em}
+ Concerning authentication of the communication, we consider two cases:
+ \emph{oral messages} and \emph{signed messages}.
+%  depending on the ability t
+% We consider here the ability or not of authenticated messages with
+% unforgeable signature~\cite{}
+% Concerning Byzantine faults, an important  is the ability of having 
+% the processes to send 
+% unforgeable signed messages.
+Following~\cite{lamport1982byzantine,srikanth1987optimal}, with oral messages, the
+sender is always
+authenticated by the receiver. But contrary to messages with
+unforgeable signatures, a process $q$ may make process $p$ believe that it has received
+message $m$ from process $r$ even if it is not true.
+%Another important assumption is whether or not the model supports signatures. 
+% We use oral messages and signed messages to model these two situations, 
+% as in\cite{lamport1982byzantine,ST87}. An oral message is the one
+% without signature. 
+% and whose the  contents are completely controlled by the sender. 
+For a signed message,  the sender attaches its
+signature to the messages. 
+A signed message satisfies the two following properties: 
+
+\begin{enumeratealpha}
+  \item A correct process's signature cannot be
+    forged and any alteration of the content of its signed messages
+    can be detected. 
+  \item Any process can verify the authenticity of a process's
+    signature. 
+\end{enumeratealpha}
+Note that the signature of a faulty process can be forged by
+another faulty process. 
+
+\vspace{1em}
+\noindent{\bf Full information protocols.}
+To prove our impossibility results, we consider full information protocol as in 
+{\cite{fischer1982lower,lamport1982byzantine} or  in  the ``EIG''
+  algorithm~\cite{lynch1996distributed}. In a full information
+protocol, every process transmits to all processes in each round everything it knows
+about all the values sent by other processes in the previous round.
+
+We use $P^{l:k}$ to denote the set of strings of symbols in $P$ of length at least $l$ 
+and at most $k$, $P^{+}$ to denote nonempty strings of symbols in $P$
+and $P^{*}$ to denote all the strings including the empty one.
+
+ A {\tmem{$k$-round scenario}} (for $(n,m,t)$-system $P$) describes an
+ execution of the protocol. Intuitively  $\sigma$ describes a 
+ communication scheme admissible for a $(n,k,m)$ system.
+ It gives the initial value of each process and the communication scheme.
+It captures the outcome of a $k$-round full information exchange.
+Given scenario $\sigma$, 
+$\sigma ( p_{1}
+p_{2} \ldots p_{k} )$ is intended to represent the value $p_{k-1}$
+tells $p_k$ that $p_{k-2}$ tells $p_{k-1}$ ... that $p_1$ tells $p_2$
+is $p_1$'s initial value. 
+
+ More formally,  a  {\tmem{$k$-round scenario}} $\sigma$
+  is a mapping :$P^{1:k+1}
+\rightarrow D$, such that:
+\begin{itemize}
+\item
+For a string $p$ of length $1$, $\sigma(p)$ is $p$'s initial value. 
+\item
+There is a partition of $P$ into two sets $R_{\sigma} $, the set of
+correct processes,  and $U_\sigma$, the set of faulty ones
+such that:
+\begin{itemize}
+\item
+$|U_\sigma| \leq m$ (and then $|R_\sigma|\geq n-m$)
+\item
+for every  process $p\in R_{\sigma} : \sigma(w p q) = \sigma(w p)$ for all
+$q\in P$ and $w\in P^{0:k-1}$,  
+\item
+for every process $p\in U_\sigma$,  for every round $j$ in $\{1,\ldots
+, k\}$,  there is a set $T$ of at most $t$ processes such that for
+all $q\in P\setminus T$  and for all
+$w\in P^{0:k-1}$ we have $\sigma(w p q) = \sigma(w p)$.
+\end{itemize}
+\end{itemize}
+Note that if  $\sigma(wpq) \neq \sigma(wp)$ for some strings $w$ of
+length $l$, that means that $q$  receives a Byzantine message from $p$
+in round $l$.
+
+
+
+If $\sigma$ is a
+{\tmem{$k$-round scenario}} and $p \in P$, $p$'s view of \ $\sigma$ is
+the map $\sigma_p$ defined by 
+$\sigma_{p} ( w ) = \sigma ( w p )$. 
+
+
+Let $O$ be the set of possible outputs and $\mathcal{U}^{k}$ be the
+set of mappings from $P^{k}$ into $D$.
+% A  $k$-round algorithm $\cal A$ defined in a $(n,m,t)$ system
+% may be defined  on the set of all scenario; namely as a set $\{ F_{p}
+% : p \in P \}$ of functions, 
+% where $F_{p} : \mathcal{U}^{k}  \rightarrow O$. 
+%  $\cal A$ solves a problem 
+%  if for each $k$-round scenario $\sigma$ and every processes $p
+% \in P$,  $F_{p} ( \sigma_{p} )$ satisfies the specification of the
+% problem.
+Any decision $k$-round algorithm $\cal A$ defined in an $(n,m,t)$ system
+may be defined  on the set of all scenarios; namely as a set $\{ F_{p}
+: p \in P \}$ of functions, 
+where $F_{p} : \mathcal{U}^{k}  \rightarrow O$. 
+Then without loss of generality, we consider in the following only algorithms
+defined this way on the set of all scenarios by a set $\{ F_{p}
+: p \in P \}$ of functions.
+
+ $\cal A$ solves a problem 
+ if for each $k$-round scenario $\sigma$ and every process $p
+\in P$,  $F_{p} ( \sigma_{p} )$ satisfies the specification of the
+problem.
+
+
+
+
+\vspace{2em}
+\noindent{\bf Problem specifications.}
+We will first address the problem of {\tmem{interactive consistency}}~\cite{fischer1983consensus}. 
+In this case, each process maintains an output register of $n$ entries. 
+The $j$-th entry of the output register of a process $i$ contains the value decided by process $i$ for process $j$.
+It is defined by the  two following properties:
+\begin{itemizedot}
+  \item {\tmem{Termination}}: Eventually, every process decides a value for
+  each process.
+  
+  \item {\tmem{Validity}}: If process $p$ decides $v$ for process $q$, then
+  $v$ should be the initial value of $q$.
+\end{itemizedot}
+As a remark, validity implies that all the processes decide the same
+values.
+Note that, contrary to classical models with faulty processes, here
+even faulty processes have to decide. 
+
+Let ${\cal A}= \{
+F_{p} :p \in P \}$ be a $k$-round algorithm and the output is a vector that contains the  $n$ decided values then  $O$ is $(D\cup \{\bot\})^n$.
+Then $\cal A$ solves  interactive
+consistency if for each $k$-round scenario $\sigma$ and 
+every process $p
+\in P$,  $F_{p} ( \sigma_{p} )$ satisfies the Termination and Validity properties of interactive consistency, i.e.
+for each $k$-round scenario $\sigma$ and all $p,r
+\in P$ we have $F_{p} ( \sigma_{p} )[r] = \sigma ( r )$.
+
+
+\vspace{1em}
+We will also consider the {\tmem{binary consensus}} problem~\ref{fischer1983consensus}. 
+In this problem, we assume that every process's input value is in $\{0,1\}$
+and its output register contains $\bot$, 0 or 1. $\bot$ means that the
+register has not yet written by the process. 
+The value written in the output register is named the decision value.
+The  {\tmem{binary consensus}} problem is defined by the three
+following properties: 
+\begin{itemizedot}
+  \item {\tmem{Termination}}: Eventually, every process decides a value.
+  \item {\tmem{Agreement}}: Every two processes decide the same value.
+  \item {\tmem{Validity}}: If  all processes start with the same
+    initial input, then every process should decide this value. 
+\end{itemizedot}
+
+
+Let ${\cal A}= \{
+F_{p} :p \in P \}$ be a $k$-round algorithm and the output is in $\{0,1,\bot\}$.
+Then $\cal A$ solves  binary consensus if for each $k$-round scenario $\sigma$ and 
+every process $p
+\in P$,  $F_{p} ( \sigma_{p} )$ satisfies the Termination, Agreement
+and Validity properties of binary consensus, i.e.   
+if for each $k$-round scenario $\sigma$, there exists $v$ the initial
+value of some process such that  
+for all processes $p$ and $r$,  we have $F_{p} ( \sigma_{p} ) = v$,
+where $v$ is the initial value of some process.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "synchrony"
+%%% End: 
