@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage{fullpage,amsmath,amssymb,amsthm,graphicx,enumerate,float}
+\usepackage{fullpage,amsmath,amssymb,amsthm,graphicx,enumerate,float,mathtools}
 \usepackage[english]{babel}
 %\usepackage[ruled]{algorithm2e}
 
@@ -26,6 +26,8 @@
     \end{algorithm*}
 }
 
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
 \newcommand{\OMIC}{\ensuremath{\mathsf{OMIC}}}
 \newcommand{\OMC}{\ensuremath{\mathsf{OMC}}}
 \newcommand{\SMIC}{\ensuremath{\mathsf{SMIC}}}
@@ -36,7 +38,7 @@
 
 \begin{document}
 
-\title{The Generalized Byzantine Model}
+\title{A Generalized Byzantine Model}
 
 \author{
     Wang Cheng~\protect\footnote{\'{E}cole Polytechnique F\'{e}d\'{e}rale de Lausanne,Switzerland, cheng.wang@epfl.ch, +41 78 924 08 90.}
@@ -54,7 +56,8 @@
 
 \begin{abstract}
 
-The classical Byzantine model assumes that a process is either correct and obeys the protocol assigned to it, or is Byzantine and may  behave completely arbitrarily, sending corrupted messages to all processes during its entire execution. In this paper we generalize that model and consider a distributed model of computation where, in each communication step, some of the processes might send corrupted messages to a \tmem{subset} of the processes. We argue that this model enables to capture more accurately  practical situations where processes experiment bugs in specific parts of their code. We present this model and prove bounds on the number of correct processes needed to solve the classical interactive consistency and consensus problems.
+The classical Byzantine model assumes that a process is either correct and obeys the protocol assigned to it, or is Byzantine and may  behave completely arbitrarily, sending corrupted messages to all processes during its entire execution. In this paper we generalize that model and consider that, in each communication step, some of the processes might send corrupted messages to a \tmem{subset} of the processes. This enables to capture more accurately  practical situations where
+processes experience possibly temporary bugs in specific parts of their code. We present this model and prove bounds on the number of correct processes needed to solve the classical interactive consistency and consensus problems.
 
 \end{abstract}
 
@@ -78,7 +81,7 @@ They proved that  agreement is achievable
 with a fully connected network if and only if the number of Byzantine
 processes is less than one third of the total number of
 processes. Dolev extended this
-result to general networks, in which the connectivity number is twice
+result to general networks, in which the connectivity number is more than twice
 the number of faulty processes \cite{dolev1982byzantine}.
 The early work on Byzantine agreement
 is well summarized in the survey by Fisher~{\cite{fischer1983consensus}}.
@@ -100,9 +103,9 @@ focus on communication failures (e.g.
 ~{\cite{perry1986distributed,schmid2002formally}}) and hybrid failures
 (e.g.~{\cite{gong1998byzantine,lincoln1993formally}}). Such models
 consider that the Byzantine components are the communication channels instead of 
-(in addition o) the processes.
+(in addition to) the processes.
 For instance, in \cite{santoro1989time,santoro2007agreement}, Santoro and Widmayer
-showed that consensus cannot be achieved with $\left[ \frac{n}{2} \right]$
+showed that consensus cannot be achieved with $\ceil*{\frac{n}{2}}$
 Byzantine communication faults.
 %
 % There are models consider communication failures (e.g.
@@ -123,15 +126,16 @@ Byzantine communication faults.
 %In spite of many different models in the literature, the primitive failures
 %they consider are Byzantine failure, communication failure and benign failure
 %(e.g. omission failure, manifest failure, etc.).
-In the classical Byzantine failure model, as well as in models with Byzantine communication channels, the notion of Byzantine failure is sustainable over time: the models consider that the processes (resp. the channels) are either Byzantine or are correct for the entire duration of the computation. More specifically, the Byzantine failure model encompasses two different situations: (1) A system attack where an adversary coordinates the behavior of several processes (resp. channels) in order to corrupt the system (e.g. denial of service attack); (2) Software or hardware bugs that lead one or several processes (resp. channels) to behave in an arbitrary manner.
+In the classical Byzantine failure model, as well as in models with Byzantine communication channels, the notion of Byzantine failure is sustainable over time: the models consider that the processes (resp. the channels) are either Byzantine, or are correct for the entire duration of the computation. More specifically, the Byzantine failure model encompasses two different situations: (1) A system attack where an adversary coordinates the behavior of several processes (resp. channels) in order to corrupt the system (e.g. denial of service attack); (2) Software or hardware bugs that lead one or several processes (resp. channels) to behave in an arbitrary manner.
 We argue that
 assumptions are fairly different in these two situations. Typically, under
 attack, the set of Byzantine processes might indeed send corrupted messages systematically, possibly
-with the sole purpose of corrupting the entire execution of the algorithm. In a situation where processes misbehave due to bugs, the number of corrupted messages might vary over time. Somehow, the Byzantine failure model as defined in \cite{lamport1982byzantine,pease1980reaching} is too conservative. It assumes the worst: failures occur due to a malicious intent rather than simply arbitrary bugs located in specific parts of the code.
+with the sole purpose of corrupting the entire execution of the algorithm. In situations where processes misbehave due to bugs, the number of corrupted messages might vary over time. In this case, the Byzantine failure model as defined in \cite{lamport1982byzantine,pease1980reaching} can be viewed as too conservative. It assumes the worst: failures occur due to a malicious intent rather than simply arbitrary bugs located in specific parts of the code that might not be
+repeated.
 
-In this paper we generalize the Byzantine failure model, accounting
+In this paper, we generalize the Byzantine failure model, accounting
 for these differences and reconsider some of the theoretical impossibilities in
-this light. We study our  \tmem{generalized Byzantine model} in a synchronous context
+this light. We study our generalized Byzantine model in a synchronous context
 of $n$
 processes of which up to $m$ can be faulty. The processes can
 communicate with each other directly through a complete network.
@@ -142,7 +146,7 @@ links. We call such a process the
 %AMK:so the processes are just faulty and channels are Byzantine right?
 These $t$ Byzantine links are \tmem{dynamic}: they may be
 different in different communication rounds.
-Note that if $t=n$, our generalized Byzantine model instantiates the classical Byzantine model. From the component failure model's view, our generalization is orthogonal to those of \cite{tseng2013iterative} or \cite{santoro2007agreement}. When $m=t$, our model is a pure communication failure model. 
+Note that if $t=n-1$, our generalized Byzantine model instantiates the classical Byzantine model. From the component failure model's view, our generalization is orthogonal to those of \cite{tseng2013iterative} or \cite{santoro2007agreement}. When $m=t$, our model is a pure communication failure model. 
 % Our model merges the advantages of the classical Byzantine model \cite{lamport1982byzantine} and the
  % communication failure model \cite{santoro2007agreement}, which enables it to tolerate $O(m t)$ 
 % faulty links and to be dynamic meanwhile.
@@ -150,11 +154,8 @@ Note that if $t=n$, our generalized Byzantine model instantiates the classical B
 
 In this paper, we focus on the case when $t<n$.
 The most important feature in this case is that {\tmem{$t$-faulty}}
-processes always send correct messages to some processes in the system.
-This enables us for instance to solve the \tmem{interactive consistency} problem~\cite{fischer1983consensus}.
-%AMK: add ref
-
-This problem consists in devising an algorithm
+processes always send correct messages to some processes in the system,
+which enables us for instance to solve the \tmem{interactive consistency} problem~\cite{fischer1983consensus}. This problem consists in devising an algorithm
 that allows every process $p$ to decide a value for each process $q$,
 such that: (1) If $p$ and $q$ are correct, then $p$ decides the
 initial value of $q$. (2) All correct processes decide the same
@@ -171,13 +172,13 @@ process by the end of the computation.
 % discover the transmission failures inside the system, for one can know
 % the precise state and communication of the whole system.
 
-The results obtained in the present paper are summarized in
+The results obtained are summarized in
 Table~\ref{tab:results}. We give the necessary and sufficient
 conditions for reaching interactive consistency with oral and signed
 messages. Our sufficiency proofs are constructive and the algorithms
 we provide are deterministic, while the necessity proofs are based on
 scenario argument.
-We also give a non-trivial upper bound for reaching \tmem{binary consensus} in Section \ref{sec:consensus}.
+%We also give a non-trivial upper bound for reaching \tmem{binary consensus} in Section \ref{sec:consensus}.
 
 
 \begin{table}[h]
@@ -192,6 +193,8 @@ Signed messages & $n>2t+m$\\
 \caption{\label{tab:results}Necessary and sufficient conditions for solving
 interactive consistency with $t$-faulty failure.}
 \end{table}
+
+The rest of the paper is organised as follows. Section 2 describes our system model and the agreement problems to be researched. In section 3 (resp. section 4), the tight bound for solving interactive consistency problem with respect to oral messages (resp. signed messages) is discussed. We then investigate the consensus problem in section 5, before concludes the paper in seciton 6.
 
 \input{model}
 

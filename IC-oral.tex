@@ -4,7 +4,7 @@ In this section, we establish the tight bound for an $( n,m,t )$-system to
 solve \tmem{interactive consistency} with {\tmem{oral messages}}. 
 
 \begin{theorem}
-  \label{consensusOral} It is possible to achieve  interactive consistency
+  \label{consensusOral} Interactive consistency can be achieved
   in an $( n,m,t )$-system with oral messages  if and only if $n> \max \{ 2m+t,2t+m \}$.
 \end{theorem}
 
@@ -20,7 +20,7 @@ And then we show the necessary part based on scenario argument.
     \item Every process receives the messages of the round.
       Let $v_j^i$ be the value received by $i$ from $j$, $v_i^i$ is the initial value of  $i$.
   %\item Set $ [ v_1^i, \ldots,  v_n^i ]$ as the output of process $i$
-  \item Process $i$ decides $v_j^i$ as the initial value of process $j$
+  \item Process $i$ decides $v_j^i$ as the initial value of process $j$.
 \end{enumeratenumeric}
 OMIC($k$), $k>0$:
 \begin{enumeratenumeric}
@@ -39,13 +39,13 @@ OMIC($k$), $k>0$:
 \end{enumeratenumeric}}}
 
 Just like in
-{\cite{lamport1982byzantine}}, we will use \tmem{transmitter} to denote the process
+{\cite{lamport1982byzantine}}, we use \tmem{transmitter} to denote the process
 that wants to transmit its value, and use \tmem{receiver} to denote the process that wants to know the value of the transmitter. 
 
-We first show the correctness of a special case of the algorithm, and then 
-we show the general case by induction.
-The considered special case is interesting because it shows that generally, we can get interactive consistency in two rounds.
-More precisely, we show that in an $( n,m,t)$-system, two rounds are enough to achieve interactive consistency as soon as 
+We first consider the correctness of a special case of the algorithm, and then 
+the general case by induction.
+%The considered special case is interesting because it shows that generally, we can get interactive consistency in two rounds.
+More precisely, we show that in an $( n,m,t)$-system, two rounds are enough to achieve interactive consistency as long as 
 $n \geqslant 2 ( m+t )$.
 Additional rounds are necessary only when the number of processes is between $2 ( m+t ) - 1$ and $ \max \{ 2m+t,2t+m \}$. Beyond that, Interactive consistency cannot be achieved.
 
@@ -70,7 +70,7 @@ As $n-1>2m$, each
   in the first round. Then in the second round, running OMIC($0$), every
   receiver gets at most $t+m-1$ wrong initial values for $p$,
   $m-1$ from the other faulty processes and $t$ from the receivers that have received wrong messages.
-   Since $n>2 (t+m)$, $n-(t+m-1) > (t-m+1)$, the receiver receives a majority of the correct value and decides correctly.
+   Since $n\geqslant 2 (t+m)$, $n-1 > 2(t+m-1)$, the receiver receives a majority of the correct value and decides correctly.
 \end{proof}
 
 We now consider the case where additional rounds are necessary to achieve interactive consistency.
@@ -85,7 +85,7 @@ We now consider the case where additional rounds are necessary to achieve intera
   The proof is by induction on $k$. Suppose the transmitter is correct. The
   lemma is trivial for $k=1$.
 In the first round, all receivers get the initial value of the transmitter. In the second
-  round when applying OMIC($0$), every receiver gets at most $m$ wrong
+  round (i.e. applying OMIC($0$)), every receiver gets at most $m$ wrong
   values for $p$ due to the $m$ faulty processes.
  As $n-1>2m$, each
   receiver decides the correct initial value of the transmitter.
@@ -118,7 +118,7 @@ In the first round, all receivers get the initial value of the transmitter. In t
 
 \begin{proof}
   The proof is also by induction on $k$. If $k=1$, the condition is equal to $n>2m+2t-1$.
-  Therefore by Lemma \ref{2roundlemma}, the lemma is proved.
+  Therefore by Lemma \ref{2roundlemma}, the present lemma is proved.
   Now suppose
   the lemma is correct for $k-1$. We prove it for $k$.
   
@@ -128,7 +128,7 @@ In the first round, all receivers get the initial value of the transmitter. In t
   the transmitter is faulty.
   
   If the transmitter is faulty, then at most $m-1$ of the receivers are
-  faulty. Since $k-1<m-1$, $n-1>2m+ ( k-1 )$, and $n-1>2 ( m-1 ) +2t- (
+  faulty. Since $k-1\leqslant m-1$, $n-1>2m+ ( k-1 )$, and $n-1>2 ( m-1 ) +2t- (
   k-1 )$, OMIC($k-1$) ensures interactive consistency by induction hypothesis.
   Every receiver  knows the values that other receivers received in Step 1. As
   $n-1>2m+2t-k-1 \geqslant 2t$, the majority of the values the transmitter
@@ -145,24 +145,24 @@ In the first round, all receivers get the initial value of the transmitter. In t
 
 \begin{proof}
   Since $m \geqslant t$ and $n>2m+t$, we have $n>2t+t$ and $n >2m+2t-t$. Take
-  $k=t$, by Lemma \ref{mainlemma} above, OMIC($m$) ensures
+  $k=t$, by Lemma \ref{mainlemma} above, OMIC($t$) ensures
   interactive consistency. 
 \end{proof}
 
 \begin{lemma}\label{algICO2}
   If $t \geqslant m$ and $n>2t+m$, it is possible to achieve interactive consistency in an $(n,m,t)$-system 
- in $m+1$ round.
+ in $m+1$ rounds.
 \end{lemma}
 
 \begin{proof}
   Since $t \geqslant m$ and $n>2t+m$, we have $n>2t+m$ and $n >2m+2t-m$. Take
-  $k=m$, by lemma \ref{mainlemma} above, OMIC($t$) ensures
+  $k=m$, by lemma \ref{mainlemma} above, OMIC($m$) ensures
   interactive consistency.
 \end{proof}
 
 From the above two lemmas, it is easy to deduce the sufficient part of 
 Theorem~\ref{consensusOral}. 
-If $m \geqslant t$ we gets the result by Lemma~\ref{algICO1} and  if $m<t$ by Lemma~\ref{algICO2}.
+If $m \geqslant t$ we get the result by Lemma~\ref{algICO1} and  if $m<t$ by Lemma~\ref{algICO2}.
 
 
 
@@ -202,7 +202,7 @@ Due to space limitations, the proof is moved to Appendix \ref{app:imposs:1}. Her
 \begin{lemma}\label{imposs:2}
   If $t \geqslant m$ and $n \leqslant 2t+m$, it is impossible to achieve interactive consistency in an $(n,m,t)$-system with oral messages.\end{lemma}
 
-The proof of this Lemma is similar to the above one. Duo to space limitations, it is moved to Appendix \ref{app:imposs:2}.
+The proof of this Lemma is similar to the above one. Due to space limitations, it is moved to Appendix \ref{app:imposs:2}.
 
 From the above two lemmas, it is easy to deduce the necessary property of 
 Theorem~\ref{consensusOral}. 
