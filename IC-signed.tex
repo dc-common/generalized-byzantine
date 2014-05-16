@@ -2,13 +2,13 @@
 
 \section{Interactive Consistency With Signed Messages}\label{signedMessage}
 
-In this section we present the tight bound for an $( n,m,t )$-system to
+In this section we present the tight bound for an $( n,m,d )$-system to
 reach \tmem{interactive consistency} with \tmem{signed messages}. In this new setting,
 we have the following main result:
 
 \begin{theorem}
   \label{consensusSigned} It is possible to achieve  interactive consistency
-  in an $( n,m,t )$-system with signed messages  if and only if $n> 2m+t$.
+  in an $( n,m,d )$-system with signed messages  if and only if $n> 2d+m$.
 \end{theorem}
 
 As in the previous section, we rely on $2$ steps to prove this result.  We provide an algorithm, resp. a counterexample,  to prove  the sufficient, resp. the necessary property. 
@@ -41,7 +41,7 @@ $i$ decides  for $j$ the
 majority value in $V_{j}$.}}
 
 \begin{lemma}
-  If $n>m+2t$, an  $(n,m,t)$-system can reach interactive consistency with signed
+  If $n>m+2d$, an  $(n,m,d)$-system can reach interactive consistency with signed
   messages.
 \end{lemma}
 
@@ -49,12 +49,12 @@ majority value in $V_{j}$.}}
   If $j$ is correct, all the values $\sigma ( j k l i )$ will be the
   initial value of $j$ since the signature of $j$ can not be forged. So all the entries in $V_j$ are set to $\sigma (j)$, and the majority of $V_{j}$ is still $v$.
   
-  If $j$ is faulty, suppose the initial value is $v$, as $n>m+2t$ at least $t+1$
-  correct processes $\{k_1,...,k_{t+1}\}$ will receive $\sigma( j  k_{s}) = \sigma(j)$ equal to $v$. Since $k_s$ is correct, $\{\sigma(j k_s l i)\}_l$ are all $v$. This
-  will contribute to at least $t+1$ values $v$ in $V_{j}$. On the other
+  If $j$ is faulty, suppose the initial value is $v$, as $n>m+2d$ at least $d+1$
+  correct processes $\{k_1,...,k_{d+1}\}$ will receive $\sigma( j  k_{s}) = \sigma(j)$ equal to $v$. Since $k_s$ is correct, $\{\sigma(j k_s l i)\}_l$ are all $v$. This
+  will contribute to at least $d+1$ values $v$ in $V_{j}$. On the other
   hand, only when $\sigma ( j k )$ is different from
   $v$, $k$ can contribute different values in $V_{j}$, because every $\sigma(j k)$ is always correctly sent to a subset of correct processes. Since $j$ can send at
-  most $t$ wrong values in the first broadcast, $V_{j}$ contains at most $t$
+  most $d$ wrong values in the first broadcast, $V_{j}$ contains at most $d$
   different values from $v$, which leads the majority value of $V_{j}$ to be
   $v$.
 \end{proof}
@@ -68,7 +68,7 @@ are now impossible. The processes in set $B$ cannot send to processes in set $C$
 where they pretend that the initial values of processes in set $A$ are not the initial value that processes in $A$ have sent.
 
 \begin{lemma}\label{imposs:3}
-  If $n \leqslant m+2t$, it is impossible to achieve interactive consistency in an $(n,m,t)$-system with signed messages.
+  If $n \leqslant m+2d$, it is impossible to achieve interactive consistency in an $(n,m,d)$-system with signed messages.
 \end{lemma}
 
 

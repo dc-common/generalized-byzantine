@@ -1,0 +1,168 @@
+\subsection{Proof of Theorem \ref{crashIC}}\label{app:thmCrash}
+
+%As the results in \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} say, tolerating $c$ crash failures in the worst case
+%must require at least $c+1$ rounds message-passing. 
+
+We have to modify our previous algorithm to tolerate crash failure.  
+In this section, we present first  a modified version of OMIC (called OMWIC)
+that reaches a weakest version of interactive consistency (weak interactive consistency)  
+defined below. Then we use a classical algorithm \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} with crash failure in synchronous rounds in which we replace the send/receive by our
+weak interactive consistency.
+
+
+The  {\tmem{weak interactive consistency}} has the
+following properties.
+\begin{itemizedot}
+  \item {\tmem{Termination}}: Eventually, every process  that is not $c$-faulty
+  one decides a value for each process in the system.
+  
+  \item {\tmem{Agreement}}: If  processes $p$ (resp. $q$) decides values $v$ (resp. $w$)
+  for process $r$. If $p$, $q$, $r$ does not crash, then $v=w$
+  
+  \item {\tmem{Validity}}: If process $p$ decides $v\neq \perp$  then $v$ is the initial value of $q$ and if $p$ decides $\perp$ then $q$  is $c$-faulty.
+
+\end{itemizedot}
+This weak interactive consistency  is weaker than interactive consistency because  the  processes do not need to
+agree on the decision value of the crashed processes.
+
+Suppose we have an algorithm $\mathcal{F}$ that achieves weak interactive
+consistency. 
+We consider any round based algorithm that achieves interactive consistency in the crash-failure model.
+We use $\mathcal{F}$ in each round to replace the send/receive.
+ To "send" a message $m$ in a round $r$, a process proposes the message $m$ in a $r$-th instance of 
+ $\mathcal{F}$.
+The decision values resulted from this instance of $\mathcal{F}$ are  the ``received'' values of the round $r$.
+Then all the correct
+processes and $d$-faulty processes only ``send'' correct messages to other
+processes by the validity property, i.e. they all  behave all as if they are
+correct. If a process crashed during the execution of $\mathcal{F}$, it
+"sends'' its initial value or $\perp$ to other processes, i.e. it still acts
+as crash-faulty process. So the environment can be viewed as the classical
+model with only crash failures, and we can exploit the algorithm in \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} to
+solve interactive consistency problem. From the above discussion, the
+interactive consistency theorem could be reduced to the following weak one.
+
+\begin{theorem}\label{weakThm}
+  Weak interactive consistency can be achieved in a $( n,m,d,c )$-system with
+  oral message if and only if $n> \max \{ 2m+d,2d+m \} +c$.
+\end{theorem}
+
+The proof of this theorem is by induction as before. The algorithm is
+a modified version of OMIC, and is called OMWIC. The key point is: when we
+choose the majority value, the value $\perp$ is not considered because that
+$c$-faulty processes might produce  empty messages. In the
+algorithm OMWIC, $T$ is a threshold number greater than $0$.
+
+{\namedalgorithm{OMWIC}{OMWIC($1,T$):
+\begin{enumeratenumeric}
+  \item In the first round, every process acts as a transmitter and broadcasts
+  its initial value.
+  
+  \item In the second round, every process forwards received messages to other
+  processes.
+  
+  \item After two rounds, process $p$ received $n-1$ messages originated from
+  transmitter $q$. Suppose the majority value of these messages excluding
+   $\perp$ is $v$. If the number of $v$ in the received
+  messages is greater than $m+T$, then $p$ decides $v$ for $q$. Otherwise, $p$
+  decides $\perp$ for $q$.
+\end{enumeratenumeric}
+OMWIC($k,T$), $k>1$:
+\begin{enumeratenumeric}
+  \item Each process acts as a transmitter and sends its value to other $n-1$
+  processors (as receivers with respect to the transmitter).
+  
+  \item Apply OMWIC($k-1,T$) (but not write the decision value to the output
+  register) to the receivers with received messages in step $1$.
+  
+  \item By the end of step $2$, every receiver gets values representing what
+  other receivers get from the transmitters. Suppose a receiver $p$ and the
+  majority value of $p$'s received messages excluding $\perp$ is $v$.
+  If the number of $v$ in the received messages is greater than $m+T$, then
+  $p$ decides $v$ for the transmitter. Otherwise, $p$ decides $\perp$ for the
+  transmitter.
+\end{enumeratenumeric}}}
+
+Taking $k= \min \{ m,d \}$, we will prove OMWIC($k$,$d-k$) achieves weak
+interactive consistency.
+
+\begin{lemma}\label{crash:basic}
+  If $n \geqslant 2 ( m+d )$+c, and $0 \leqslant T \leqslant d-1$, then the
+  protocol OMWIC($1,T$) achieves weak interactive consistency in 2 rounds.
+\end{lemma}
+
+\begin{proof}
+  Suppose a transmitter $p$ with initial value $v ( v \neq \perp )$. If $p$ is
+  correct, all the receivers get its initial value in the first step. Then in
+  the second step of OMWIC($1$), any receivers get at least $n-1-c-m>m+T$
+  correct values and at most $m$ wrong values from the $d$-faulty processes.
+  So the majority value is the initial value of the transmitter.
+  
+  If $p$ is $d$-faulty, at most $m$ processes received wrong values in the
+  first step. Then in the second step, any receiver get at most $d+m-1$ wrong
+  values and gets at least $n-1-c- ( d+m-1 ) >d+m-1 \geqslant m+T$ correct
+  values. So the majority value is the initial value of the transmitter.
+  
+  If $p$ is crash-faulty, at most $m$ wrong forwarding messages can be created
+  by the $d$-faulty processes in the second round. So the majority value could
+  only be the initial value or $\perp$.
+\end{proof}
+
+\begin{lemma}\label{crash:correct}
+  Suppose $k \geqslant 1$, $T \geqslant 0$ and $n>2m+k+T+c$. If the
+  transmitter is correct then every receiver that does not crash decides on
+  the initial value of the transmitter by OMWIC($k$,$T$). If the transmitter
+  might crash then every receiver that does not crash decides on the initial
+  value of the transmitter or decides $\perp$ by OMWIC($k$,$T$).
+\end{lemma}
+
+\begin{proof}
+  The proof is by induction on $k$. The case $k=1$ is easy since there are at
+  least $m+T$ correct receivers which contribute at least $m+T$ values equal
+  to the initial value of the transmitter, which makes the majority value to
+  be the initial value of the transmitter. We assume the lemma is true for
+  $k-1$, and prove it for $k$.
+  
+  Fix a transmitter $p$. If $p$ is correct or $p$ does not crash in the first
+  round of OMICW($k$), $p$ sends its initial value to other $n-1$ receivers
+  among which up to $m$ are $d$-faulty and up to $c$ are $c$-faulty. These
+  receivers act as transmitter in OMWIC($k-1$,$T$). By induction hypothesis,
+  the receivers that do not crash get at least $n-1-c-m$ copies of the
+  initial value of $p$. Since $n-1-c-m>m+T$ the majority value obtained in
+  step $3$ is the initial values of $p$. If $p$ crashes in the first round of
+  OMWIC($k$), it distributes its initial value to a subset of the processes.
+  By induction hypothesis, every receiver only received the initial value of
+  transmitter or $\perp$ from other correct or $c$-faulty process. Since
+  there are up to $m$ $d$-faulty processes, the majority value in step $3$
+  could only be the initial value or $\perp$. The lemma is proved.
+\end{proof}
+
+\begin{lemma}
+  For any $k \geqslant 1$ and $k \leqslant \min \{ m,d \}$, OMWIC($k$,$d-k$)
+  ensures weak interactive consistency if $n> \max \{ 2m+d+c,2m+2d-k+c \}$.
+\end{lemma}
+
+\begin{proof}
+  The proof is similar to the proof of Lemma \ref{coreLemma} by induction. The case
+  $k=1$ is trivial by Lemma \ref{crash:basic}. Suppose the lemma is correct for $k-1$,
+  let us prove it for $k$.
+  
+  Fix a transmitter $p$. Since $n>2m+d+c$, by Lemma \ref{crash:correct} we only need to
+  check the case $p$ is $d$-faulty.
+  
+  Suppose $p$ is $d$-faulty. Since $n-1>2 ( m-1 ) +d-1+c$ and $n-1>2 ( m-1 )
+  +2d- ( k-1 ) +c$, OMWIC($k-1$,$d-k$) guarantee interactive consistency in
+  the second step of of OMWIC($k$,$d-k$). Because the receivers only got at
+  most $m$ faulty messages in the first step, by $n-1-c>2d$ we know the
+  majority value must be the initial value of $p$. So the lemma is proved.
+\end{proof}
+
+\begin{proof}
+  (proof of Theorem \ref{weakThm}) First, let us show the necessary. Suppose $n<
+  \max \{ 2m+d,2d+m \} +c$, we can fix $c$ processes to crash in the beginning
+  of the first round and send no message at all. Then using the same
+  counterpart scenarios as in section \ref{oralImpossibility}, it leads to the impossibility
+  of weak interactive consistency.
+  
+  The sufficiency results from the above lemma by taking $k= \min \{ m,d \}$.
+\end{proof}

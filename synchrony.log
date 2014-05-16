@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.11)  2 MAY 2014 16:19
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.10.11)  16 MAY 2014 17:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -280,12 +280,12 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+LaTeX Font Info:    Try loading font information for U+msa on input line 57.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+LaTeX Font Info:    Try loading font information for U+msb on input line 57.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -302,33 +302,39 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 109.
  [3])
-(./IC-oral.tex [4] [5] [6]) (./IC-signed.tex [7]) (./consensus.tex [8] [9])
-(./conclusion.tex) [10] (./synchrony.bbl [11]) [12] (./appendix.tex
-<impossible1.png, id=60, 351.3125pt x 277.035pt>
+(./IC-oral.tex [4] [5] [6]) (./IC-signed.tex [7]) (./consensus.tex [8])
+(./crash-failure.tex [9]) (./conclusion.tex) [10] (./synchrony.bbl
+Missing character: There is no â in font cmti10!
+Missing character: There is no € in font cmti10!
+Missing character: There is no ” in font cmti10!
+ [11])
+[12] (./appendix.tex <impossible1.png, id=60, 351.3125pt x 277.035pt>
 File: impossible1.png Graphic file (type png)
- <use impossible1.png>
+
+<use impossible1.png>
 Package pdftex.def Info: impossible1.png used on input line 9.
 (pdftex.def)             Requested size: 122.96121pt x 96.9637pt.
- [13 <./impossible1.png>] <impossible2.png, id=66, 368.37625pt x 281.05pt>
+ [13 <./impossible1.png>]
+<impossible2.png, id=66, 368.37625pt x 281.05pt>
 File: impossible2.png Graphic file (type png)
-
-<use impossible2.png>
+ <use impossible2.png>
 Package pdftex.def Info: impossible2.png used on input line 70.
 (pdftex.def)             Requested size: 128.93361pt x 98.36896pt.
- [14 <./impossible2.png>] [15]) [16] (./synchrony.aux) )
+ [14 <./impossible2.png>] [15]) (./crash-appendix.tex [16] [17] [18]) [19]
+(./synchrony.aux) )
 (\end occurred inside a group at level 2)
 
 ### simple group (level 2) entered at line 85 ({)
 ### simple group (level 1) entered at line 46 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 3630 strings out of 493315
- 50204 string characters out of 6137903
- 119480 words of memory out of 5000000
- 6988 multiletter control sequences out of 15000+600000
+ 3649 strings out of 493315
+ 50511 string characters out of 6137903
+ 120597 words of memory out of 5000000
+ 7000 multiletter control sequences out of 15000+600000
  14542 words of font info for 55 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,13n,26p,683b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,13n,26p,673b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx12.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/c
@@ -345,10 +351,11 @@ sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr
 ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/lo
 cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></us
 r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on synchrony.pdf (17 pages, 258810 bytes).
+
+Output written on synchrony.pdf (20 pages, 272605 bytes).
 PDF statistics:
- 128 PDF objects out of 1000 (max. 8388607)
- 88 compressed objects within 1 object stream
+ 138 PDF objects out of 1000 (max. 8388607)
+ 95 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

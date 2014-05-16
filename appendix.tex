@@ -7,13 +7,13 @@
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.35]{impossible1.png}
-  \caption{Case $m \geqslant t$  }
+  \caption{Case $m \geqslant d$  }
 \end{figure}\label{sc1}
 
   The case $n=2$ is trivial. We assume $n \geqslant 3$.
   Suppose that $F$ is a $k$-round interactive consistency algorithm. Since $n \leqslant
-  2m+t$, $P$ can be partitioned into three nonempty sets $A$, $B$, and $C$,
-  with $| A | \leqslant m$, $| B | \leqslant m$, $| C | \leqslant t$. 
+  2m+d$, $P$ can be partitioned into three nonempty sets $A$, $B$, and $C$,
+  with $| A | \leqslant m$, $| B | \leqslant m$, $| C | \leqslant d$. 
   
   We define two scenarios $\alpha$ and $\beta$.
   In $\alpha$, all processes have 0 as initial values.
@@ -68,15 +68,15 @@ leading to a contradiction.
 \begin{figure}[h]
   \centering
   \includegraphics[scale=0.35]{impossible2.png}
-  \caption{Case $t \geqslant m$  }
+  \caption{Case $d \geqslant m$  }
 \end{figure}\label{sc2}
 
   This proof is similar to the proof above. 
   The case $n=2$ is trivial. We assume $n \geqslant 3$.
   Suppose that $F$ is a $k$-round  interactive
-  consistency algorithm. Since $n \leqslant 2t+m$, $P$ can be partitioned into
-  three non-empty sets $A$, $B$, and $C$, with $| A | \leqslant m$, $| B | \leqslant t$, $| C |
-  \leqslant t$. 
+  consistency algorithm. Since $n \leqslant 2d+m$, $P$ can be partitioned into
+  three non-empty sets $A$, $B$, and $C$, with $| A | \leqslant m$, $| B | \leqslant d$, $| C |
+  \leqslant d$. 
   
    We define two scenarios $\alpha$ and $\beta$.
   In $\alpha$, all processes have 0 as initial values.
@@ -132,8 +132,8 @@ But for any $a \in A$, $b \in B$, as $F$ is a $k$-round  interactive consistency
   Suppose that $F$ is a $k$-round  interactive consistency algorithm. 
   
   Since $n \leqslant
-  m+2t$, $P$ can be partitioned into three nonempty sets $A$, $B$, and $C$,
-  with $| A | \leqslant m$, $| B | \leqslant t$, $| C | \leqslant t$. 
+  m+2d$, $P$ can be partitioned into three nonempty sets $A$, $B$, and $C$,
+  with $| A | \leqslant m$, $| B | \leqslant d$, $| C | \leqslant d$. 
   
    We define two scenarios $\alpha$ and $\beta$.
   In $\alpha$, all processes have 0 as initial values.
@@ -182,3 +182,125 @@ But for any $a \in A$, $b \in B$, as $F$ is a $k$-round  interactive consistency
 %  real initial value of $A$ in these two scenarios.
 \end{proof}
 
+\subsection{Proof of Theorem \ref{thmConsensus}}
+
+\begin{lemma}\label{cons:2}
+If $n\geqslant 2m+2d$, then  OMC(1) achieves  binary consensus in $2$ rounds in an $(n,m,d)$-system.
+\end{lemma}
+
+\begin{proof}
+As we have shown in Lemma~\ref{basicCase}, the guessed value in Step $2$ 
+is the same as the initial value of transmitter when $n \geqslant 2m+2d$. 
+As the output of each process is the result of applying \tmem{Major} to the list consisting of the initial values the properties of binary  consensus are satisfied.
+\end{proof}
+
+\begin{lemma}
+For any $k\geqslant 1$, if $n>2m+k$, OMC($k$) ensures that the guessed value in Step $2$ for a correct transmitter is the initial value of the transmitter.
+\end{lemma}
+
+\begin{proof}
+In the case $k=1$, the guessed value is the output of OMC(0) and  it is equal to the initial value of the correct transmitter since $n-1>2m$. Suppose the lemma is proved for $k-1$. Let us prove it for $k$.
+
+In OMC($k$), the correct transmitter $i$ first sends its value to the other $n-1$ receivers. 
+By induction hypothesis, the initial value of correct process will be guessed  correctly in OMC($k-1$). 
+Since there are at least $n-1-m(>m)$ correct receivers, the decision values of all the receivers are the initial value of the transmitter.
+\end{proof}
+
+\begin{lemma}\label{cons:corelemma}
+  For any $k \geqslant 1$, OMC($k$) achieves binary consensus if $n>\max\{2m+k,2m+2d-k\}$.
+\end{lemma}
+
+Note that this lemma is different from Lemma~\ref{mainlemma} in the sense that $k\leqslant m$ is not required.
+
+\begin{proof}
+We proof this lemma by induction on $k$. The basic case $k=1$ is the same as in Lemma~\ref{cons:2}.
+Hence, we suppose the lemma is proved for $k-1$, and we prove it for $k$.
+
+If the transmitter is correct, every receiver decides the same guessed value in step $2$ for $n>2m+d$. 
+If the transmitter is faulty, then
+by induction hypothesis, every receiver  guesses the same value for every transmitter. 
+In the \tmem{feedback step}, the transmitter will receive $n-1$ copies of the guessed value. 
+Since there are at most $m$ faulty receivers, and $n-1>2m$, the transmitter 
+also gets the same guessed value in Step $3$. 
+So the final list $V_i$ is the same for different $i$ proving the agreement property. 
+
+Now we consider  the validity property.
+Suppose all input values are the same $v(\in \{0,1\})$. 
+Since $n>2m+k$, by the last lemma, the guessed value for correct transmitters is the real initial value $v$. So there are at least $n-m (> m)$ elements in $V_i$ with value $v$. Therefore, \tmem{Major}($V_i$) is $v$. 
+The validity property is also proved.
+\end{proof}
+
+With this core lemma, it is easy to prove Theorem~\ref{thmConsensus}.
+\begin{proof}{(Proof of Theorem~\ref{thmConsensus})}
+We prove the theorem by taking $k$ equal to $d$ in Lemma~\ref{cons:corelemma}.
+\end{proof}
+
+\iffalse
+\subsection{Proof of Theorem \ref{crashIC}}
+
+\begin{lemma}
+  If $n \geqslant 2 ( m+d )+c$, then the protocol OMIC'(1) achieves
+  interactive consistency in 2 rounds.
+\end{lemma}
+
+\begin{proof}
+  Suppose a transmitter $p$ with initial value $v ( v \neq \perp )$. The
+  presence of crash-faulty processes can only send several copies of $v$ which
+  contributes to several number of true value in majority selection, or
+  several copies of $\perp$ which contributes nothing in majority selection
+  since the number of $\perp$ is subtracted by $c$. So if $p$ does not crash,
+  in step $3$ of OMIC'(1), the majority value is still $v$. If $p$ crashes in
+  the first round, the value receivers get in step $2$ of OMIC'($1$) is
+  $\perp$. Then in step $3$ every receiver gets at most $m$ values not equal
+  to $\perp$, which makes the majority values to be $\perp$. So in any case,
+  interactive consistency is achieved.
+\end{proof}
+
+\begin{lemma}
+  Suppose $k \geqslant 1$ and $n>2m+k+c$. If the transmitter is correct then
+  every receiver that does not crash decides on the initial value of the
+  transmitter by OMIC'($k$). If the transmitter is correct then every receiver
+  that does not crash decides on the initial value of the transmitter or
+  decides $\perp$ by OMIC'($k$).
+\end{lemma}
+
+\begin{proof}
+  The proof is by induction on $k$. The lemma can be derived from lemma above
+  when $k=1$. We assume the lemma is true for $k-1$, and prove it for $k$.
+  
+  Fix a transmitter $p$. If $p$ is correct or $p$ does not crash in the first
+  round of OMIC'($k$), $p$ sends its initial value to other $n-1$ receivers
+  among which upto $m$ are $d$-faulty and upto $c$ are crash-faulty. These
+  receivers act as transmitter in OMIC'($k-1$). By induction hypothesis, the
+  receivers that does not crash gets at least $n-1-c-m$ copies of the initial
+  value of $p$, and the receivers that might crash can contribute another
+  several copies of that initial values. Since $n-1-c-m>m$ the majority value
+  obtained in step $3$ is the initial values of $p$. If $p$ crashes in the
+  first round of OMIC'($k$), then this is equal to that the initial value of
+  $p$ is $\perp$ when decide the value for $p$. By induction, the lemma is
+  still true.
+\end{proof}
+
+\begin{lemma}
+  For any $k \geqslant 1$ and $k \leqslant m$, OMIC'($k$) ensures interactive
+  consistency if $n> \max \{ 2m+k+c,2m+2d-k+c \}$.
+\end{lemma}
+
+\begin{proof}
+  It can be easily deduced from the above lemma and Lemma \ref{coreLemma}.
+\end{proof}
+
+\begin{theorem}
+  Interactive consistency can be achieved in an $( n,m,d,c )$-system with oral
+  message if and only if $n> \max \{ 2m+d,2d+m \} +c$.
+\end{theorem}
+
+\begin{proof}
+  First, let us show the necessary. Suppose $n< \max \{ 2m+d,2d+m \} +c$, we
+  can fix $c$ processes to crash in the beginning of the first round. Then
+  using the same counterpart scenarios as in section \ref{oralImpossibility}, it leads to the
+  impossibility of interactive consistency.
+  
+  The sufficiency results from the above lemma by taking $k= \min \{ m,d \}$.
+\end{proof}
+\fi

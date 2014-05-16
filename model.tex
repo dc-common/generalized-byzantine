@@ -37,14 +37,14 @@ which introduces Byzantine faults in transmission: these faults may
 only come from faulty processes. Here, up to $m$ of the
 processes are 
 faulty and controlled by the adversary. In each round, the adversary chooses
-up to $t$ communication links from each faulty process that
+up to $d$ communication links from each faulty process that
 will carry Byzantine messages. 
 
 
 An instance of our model of $n$ processes with $m$ 
-faulty processes such that in each round up to $t$ communication faults
-on links from faulty processes may occur will be called an {\tmem{$( n,m,t )$-system}. For the results established in this paper, we always assume $m>0$, $t>0$, and $n > 
-max\{m,t\}$. But the model itself does not preclude other cases. We also assume $n>1$, the case $n=1$ being trivial. 
+faulty processes such that in each round up to $d$ communication faults
+on links from faulty processes may occur will be called an {\tmem{$( n,m,d )$-system}. For the results established in this paper, we always assume $m>0$, $d>0$, and $n > 
+max\{m,d\}$. But the model itself does not preclude other cases. We also assume $n>1$, the case $n=1$ being trivial. 
 
 \vspace{1em}
  We consider two authentication cases:
@@ -90,7 +90,7 @@ We use $P^{l:k}$ to denote the set of strings of symbols in $P$ of length at lea
 and at most $k$, $P^{+}$ to denote nonempty strings of symbols in $P$
 and $P^{*}$ to denote all the strings including the empty one.
 
- A {\tmem{$k$-round scenario}} (for $(n,m,t)$-system $P$) describes an
+ A {\tmem{$k$-round scenario}} (for $(n,m,d)$-system $P$) describes an
  execution of the protocol. Intuitively  $\sigma$ describes a 
  communication scheme admissible for a $(n,k,m)$ system.
  It gives the initial value of each process and the communication scheme.
@@ -119,7 +119,7 @@ for every  process $p\in R_{\sigma} : \sigma(w p q) = \sigma(w p)$ for all
 $q\in P$ and $w\in P^{0:k-1}$,  
 \item
 for every process $p\in U_\sigma$,  for every round $j$ in $\{1,\ldots
-, k\}$,  there is a set $T$ of at most $t$ processes such that for
+, k\}$,  there is a set $T$ of at most $d$ processes such that for
 all $q\in P\setminus T$  and for all
 $w\in P^{0:k-1}$ we have $\sigma(w p q) = \sigma(w p)$.
 \end{itemize}
@@ -138,7 +138,7 @@ $\sigma_{p} ( w ) = \sigma ( w p )$.
 
 Let $O$ be the set of possible outputs and $\mathcal{U}^{k}$ be the
 set of mappings from $P^{k}$ into $D$.
-% A  $k$-round algorithm $\cal A$ defined in a $(n,m,t)$ system
+% A  $k$-round algorithm $\cal A$ defined in a $(n,m,d)$ system
 % may be defined  on the set of all scenario; namely as a set $\{ F_{p}
 % : p \in P \}$ of functions, 
 % where $F_{p} : \mathcal{U}^{k}  \rightarrow O$. 
@@ -146,7 +146,7 @@ set of mappings from $P^{k}$ into $D$.
 %  if for each $k$-round scenario $\sigma$ and every processes $p
 % \in P$,  $F_{p} ( \sigma_{p} )$ satisfies the specification of the
 % problem.
-Any $k$-round algorithm $\cal A$ defined in an $(n,m,t)$-system
+Any $k$-round algorithm $\cal A$ defined in an $(n,m,d)$-system
 may be defined  on the set of all scenarios; namely as a set $\{ F_{p}
 : p \in P \}$ of functions, 
 where $F_{p} : \mathcal{U}^{k}  \rightarrow O$. 

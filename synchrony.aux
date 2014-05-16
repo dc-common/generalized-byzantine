@@ -19,15 +19,18 @@
 \citation{lincoln1993formally}
 \citation{santoro1989time}
 \citation{santoro2007agreement}
+\citation{dolev1982byzantine}
+\citation{franklin1998secure}
 \citation{lamport1982byzantine}
 \citation{pease1980reaching}
 \citation{tseng2013iterative}
 \citation{santoro2007agreement}
+\citation{amitanand2003distributed}
 \citation{fischer1983consensus}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \citation{lamport1982byzantine}
 \citation{toueg1984simple}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Necessary and sufficient conditions for solving interactive consistency with $t$-faulty failure.}}{2}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Necessary and sufficient conditions for solving interactive consistency with $d$-faulty processes.}}{2}}
 \newlabel{tab:results}{{1}{2}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Model and Definitions}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Failure model}{2}}
@@ -50,10 +53,12 @@
 \newlabel{2roundlemma}{{1}{5}}
 \newlabel{reliableCorretness}{{2}{6}}
 \newlabel{reliablecase}{{2}{6}}
+\newlabel{coreLemma}{{3}{6}}
 \newlabel{mainlemma}{{3}{6}}
 \newlabel{algICO1}{{4}{6}}
 \newlabel{algICO2}{{5}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Impossibility}{7}}
+\newlabel{oralImpossibility}{{3.2}{7}}
 \newlabel{imposs:1}{{6}{7}}
 \newlabel{imposs:2}{{7}{7}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Interactive Consistency With Signed Messages}{7}}
@@ -67,40 +72,60 @@
 \newlabel{sec:consensus}{{5}{8}}
 \@writefile{lop}{\contentsline {algorithm}{\numberline {3}{\ignorespaces OMC}}{9}}
 \newlabel{thmConsensus}{{3}{9}}
-\newlabel{cons:2}{{10}{9}}
-\newlabel{cons:corelemma}{{12}{10}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Concluding Remarks}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Extension to Crash Failures}{10}}
+\newlabel{crashIC}{{4}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Concluding Remarks}{10}}
 \bibstyle{abbrv}
 \bibdata{ref}
-\bibcite{braud2013fast}{1}
-\bibcite{dolev1982byzantine}{2}
-\bibcite{dwork1988consensus}{3}
-\bibcite{dwork1988fault}{4}
-\bibcite{fischer1983consensus}{5}
-\bibcite{fischer1982lower}{6}
-\bibcite{fischer1985impossibility}{7}
-\bibcite{gong1998byzantine}{8}
-\bibcite{king2011load}{9}
-\bibcite{lamport1982byzantine}{10}
-\bibcite{lincoln1993formally}{11}
-\bibcite{lynch1996distributed}{12}
-\bibcite{pease1980reaching}{13}
-\bibcite{perry1986distributed}{14}
-\bibcite{rabin1983randomized}{15}
-\bibcite{santoro1989time}{16}
-\bibcite{santoro2007agreement}{17}
-\bibcite{schmid2002formally}{18}
-\bibcite{srikanth1987optimal}{19}
-\bibcite{toueg1984simple}{20}
-\bibcite{tseng2013iterative}{21}
+\bibcite{amitanand2003distributed}{1}
+\bibcite{braud2013fast}{2}
+\bibcite{dolev1982byzantine}{3}
+\bibcite{dolev1982polynomial}{4}
+\bibcite{dwork1988consensus}{5}
+\bibcite{dwork1990knowledge}{6}
+\bibcite{dwork1988fault}{7}
+\bibcite{fischer1983consensus}{8}
+\bibcite{fischer1982lower}{9}
+\bibcite{fischer1985impossibility}{10}
+\bibcite{franklin1998secure}{11}
+\bibcite{gong1998byzantine}{12}
+\bibcite{king2011load}{13}
+\bibcite{lamport1982crash}{14}
+\bibcite{lamport1982byzantine}{15}
+\bibcite{lincoln1993formally}{16}
+\bibcite{lynch1996distributed}{17}
+\bibcite{pease1980reaching}{18}
+\bibcite{perry1986distributed}{19}
+\bibcite{rabin1983randomized}{20}
+\bibcite{santoro1989time}{21}
+\bibcite{santoro2007agreement}{22}
+\bibcite{schmid2002formally}{23}
+\bibcite{srikanth1987optimal}{24}
+\bibcite{toueg1984simple}{25}
+\bibcite{tseng2013iterative}{26}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Omitted Proofs}{13}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Proof of Lemma \ref  {imposs:1}}{13}}
 \newlabel{app:imposs:1}{{A.1}{13}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Case $m \geqslant t$ }}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Case $m \geqslant d$ }}{13}}
 \newlabel{sc1}{{A.1}{13}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Proof of Lemma \ref  {imposs:2}}{14}}
 \newlabel{app:imposs:2}{{A.2}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Case $t \geqslant m$ }}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Case $d \geqslant m$ }}{14}}
 \newlabel{sc2}{{A.2}{14}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Proof of Lemma \ref  {imposs:3}}{15}}
 \newlabel{app:imposs:3}{{A.3}{15}}
+\citation{lamport1982crash}
+\citation{dolev1982polynomial}
+\citation{dwork1990knowledge}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Proof of Theorem \ref  {thmConsensus}}{16}}
+\newlabel{cons:2}{{10}{16}}
+\newlabel{cons:corelemma}{{12}{16}}
+\citation{lamport1982crash}
+\citation{dolev1982polynomial}
+\citation{dwork1990knowledge}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}Proof of Theorem \ref  {crashIC}}{17}}
+\newlabel{app:thmCrash}{{A.5}{17}}
+\newlabel{weakThm}{{5}{17}}
+\newlabel{crash:basic}{{13}{17}}
+\@writefile{lop}{\contentsline {algorithm}{\numberline {4}{\ignorespaces OMWIC}}{18}}
+\newlabel{crash:correct}{{14}{18}}

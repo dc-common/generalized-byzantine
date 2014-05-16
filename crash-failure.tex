@@ -1,0 +1,84 @@
+\section{Extension to Crash Failures}
+In the previous sections we assumed that faulty processes are only
+$d$-faulty. In this section we extend our results to crash failures.
+For this we consider two kinds of faulty processes: $d$-faulty processes as
+defined in the previous sections may send in the rounds  up to $d$ wrong messages and
+$c$-faulty processes that may crash in some round. If a
+$c$-faulty process crashes in some round some of its messages for this round
+may be sent and some other not and in all next rounds no messages from
+this process are sent. 
+Note that a process may be both $d$-faulty and $c$-faulty.
+
+A $( n,m,d,c )$-system is a system of $n$ processes, with up to $m$
+processes are $d$-faulty and up to $c$ processes are $c$-faulty.
+% where $d<n-1$, for which $d$-faulty processes always send correct messages to
+% a subset of processes. In this section we investigate the interactive consistency problem
+% for this hybrid model with oral message.
+% From the practical perspective, crash failure \cite{fischer1985impossibility} is typical and important. Though
+% this failure can be modeled into the case $d=n-1$, it is too conservative. In
+% this section, we discuss a new kind of hybrid model where $d$-faulty processes and
+% crash-faulty processes occur simultaneously.
+% {\tmem{Crash failures}} means a faulty processes might crash at some point,
+% after which it sends no messages at all. In the hybrid model to be discussed,
+% the system consists of $n$ processes, of which upto $m$ processes are
+% $d$-faulty processes and upto $c$ processes might crash. An instance
+% of this hybrid model is called $( n,m,d,c )$-system.
+Adapt the \tmem{Interactive Consistency}  specifications to $( n,m,d,c)$-system as follows:
+  \begin{itemizedot}
+    \item {\tmem{Termination}}: Eventually, every process that is not $c$-faulty
+     decides a value for each process in the system.
+    
+    \item {\tmem{Agreement}}: Every two processes that decide 
+    decide the same value for each process in the system.
+    
+    \item {\tmem{Validity}}: If $p$ decides $x\neq \bot $ for process $q$, then
+           $x$ is the initial value of $q$ and if $p$ decides $\bot$
+           for process $q$, then $q$ is $c$-faulty.
+  \end{itemizedot}
+Remark that if $c=0$, then the problem specification is the same as
+the one in Section~\ref{oralIC}.
+
+% We focus on the situation
+% where $d<n-1$, for which $d$-faulty processes always send correct messages to
+% a subset of processes.
+% In this section we investigate the interactive consistency problem
+% for $( n,m,d,c)$-system with oral messages.
+
+
+% Through this section, a $( n,m,d,c )$-system is supposed with oral
+% messages. Based on the results
+% for our generalized Byzantine model in the previous sections, we can have the
+% following corresponding theorem.
+As an extension of Theorem~\ref{consensusOral} we get:
+\begin{theorem}\label{crashIC}
+  Interactive Consistency can be achieved in a $( n,m,d,c )$-system with oral
+  message if and only if $n> \max \{ 2m+d,2d+m \} +c$.
+\end{theorem}
+
+
+\iffalse
+The proofs of these theorem is by induction as before. The algorithm employed
+is a slightly modified version of OMIC. The existence of crash-faulty
+processes might send message $\perp$ since a particular round. In order to
+handle these possible empty messages, every time when we select the majority value in step $3$ of OMIC,
+the count for $\perp$ is subtracted by $c$ for a $( n,m,d,c )$-system. This new
+slightly different algorithm is called OMIC'. The key point is: if a process
+might crash but does not crash, it behaves the same as a correct process; if a
+process crash at some point, it contributes nothing to the message passing
+since the counter of $\perp$ is subtracted by $c$. Due to space limitations,
+the proof is moved to appendix \ref{app:thmCrash}.
+\fi
+
+% As the results in \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} say, tolerating $c$ crash failures in the worst case
+% must require at least $c+1$ rounds message-passing.
+%  So we have to modify our previous algorithm to make it work.  In this section, firstly a modified version of OMIC (called OMWIC)
+% is designed to reach a weak agreement, which can reduce
+% the interactive consistency problem to the classical problem with only crash failures.
+% Then we can use known algorithm in \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} that only tolerates crash failures to reach interactive
+% consistency.
+Due to space limitations, algorithms and proofs are moved to appendix~\ref{app:thmCrash}.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "synchrony"
+%%% End: 
