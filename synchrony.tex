@@ -37,7 +37,6 @@
 \widowpenalty = 10000 
 
 \begin{document}
-\pagenumbering{gobble}
 
 \title{A Generalized Byzantine Model}
 
@@ -133,10 +132,9 @@ In the classical Byzantine failure model, as well as in models with Byzantine co
 We argue that
 assumptions are fairly different in these two situations. Typically, under
 attack, the set of Byzantine processes might indeed send corrupted messages systematically, possibly
-with the sole purpose of corrupting the entire execution of the algorithm. In situations where processes misbehave due to bugs, the number of corrupted messages might vary over time. In this case, the Byzantine failure model as defined in \cite{lamport1982byzantine,pease1980reaching} can be viewed as too conservative. It assumes the worst: failures occur due to a malicious intent rather than simply arbitrary bugs located in specific parts of the code that might not be
-repeated.
+with the sole purpose of corrupting the entire execution of the algorithm. In situations where processes misbehave due to bugs, the number of corrupted messages might vary over time. In this case, the Byzantine failure model as defined in \cite{lamport1982byzantine,pease1980reaching} can be viewed as too conservative. It assumes the worst: failures occur due to a malicious intent rather than simply arbitrary bugs located in specific parts of the code that might not be repeated.
 
-We generalize the Byzantine failure model, accounting
+The motivation of this work is to generalize the Byzantine failure model, accounting
 for these differences and reconsider some of the theoretical impossibilities in
 this light. We study our generalized Byzantine model in a synchronous context
 of $n$
@@ -155,7 +153,7 @@ Note that if $d=n-1$, our generalized Byzantine model instantiates the classical
 % faulty links and to be dynamic meanwhile.
 
 
-In this paper, we focus on the case when $d<n$.
+In this paper, we mainly focus on the case when $d<n$.
 The most important feature in this case is that {\tmem{$d$-faulty}}
 processes always send correct messages to some processes in the system,
 which enables us for instance to solve the \tmem{interactive consistency} problem~\cite{fischer1983consensus}. This problem consists in devising an algorithm
@@ -166,8 +164,10 @@ value for each process. Somehow, $d<n$ implies that the local
 computation of the processes is always correct and only the
 communication links related to the faulty processes are partially
 controlled by the adversary - during specific rounds.
-In this sense, we treat all the processes as
-correct ones. In this context {\tmem{interactive consistency}}
+In this sense,  we treat all the processes as
+correct ones. (Except in Section 6 where we show how the model 
+can easily encompass crash failures.) 
+In this context {\tmem{interactive consistency}}
 means that every process knows the initial value of every other
 process by the end of the computation.
 % As a remark, in a system with
@@ -175,12 +175,13 @@ process by the end of the computation.
 % discover the transmission failures inside the system, for one can know
 % the precise state and communication of the whole system.
 
-The results obtained are summarized in
-Table~\ref{tab:results}. We give the necessary and sufficient
+Here is a brief summarization of our results.
+We first give the necessary and sufficient
 conditions for reaching interactive consistency with oral and signed
-messages. Our sufficiency proofs are constructive and the corresponding algorithms
+messages (Table \ref{tab:results}). Our sufficiency proofs are constructive and the algorithms
 we provide are deterministic, while the necessity proofs are based on a 
-scenario argument.
+scenario argument. We also obtain a tight bound for reaching interactive
+consistency in the case we also consider crash failures.
 %We also give a non-trivial upper bound for reaching \tmem{binary consensus} in Section \ref{sec:consensus}.
 
 
@@ -197,7 +198,8 @@ Signed messages & $n>2d+m$\\
 interactive consistency with $d$-faulty processes.}
 \end{table}
 
-The rest of the paper is organized as follows. Section 2 describes our system model and the studied agreement problems. In Section 3 (resp. Section 4), we prove a  tight bound for solving interactive consistency   with respect to oral messages (resp. signed messages). The consensus problem is discussed in Section 5. We introduce and investigate a hybrid model including crash failures in Section 6.
+The rest of the paper is organized as follows. Section 2 describes our system model and the agreement problems we study. In Section 3 (resp. Section 4) we prove a  tight bound for solving interactive consistency  with respect to oral messages (resp. signed messages). The consensus problem is discussed in Section 5. 
+In Section 6, we show that the bounds on interactive consistency are similar if we also consider crash failures. 
 We conclude the paper  in Section 7.
 
 \input{model}

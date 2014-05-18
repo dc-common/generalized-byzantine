@@ -4,8 +4,8 @@ $d$-faulty. In this section we extend our results to crash failures.
 For this we consider two kinds of faulty processes: $d$-faulty processes as
 defined in the previous sections may send in the rounds  up to $d$ wrong messages and
 $c$-faulty processes that may crash in some round. If a
-$c$-faulty process crashes in some round some of its messages for this round
-may be sent and some other not and in all next rounds no messages from
+$c$-faulty process crashes in some round, some of its messages for this round
+may be sent and some others not, and in all next rounds no messages from
 this process are sent. 
 Note that a process may be both $d$-faulty and $c$-faulty.
 
@@ -76,6 +76,10 @@ the proof is moved to appendix \ref{app:thmCrash}.
 % the interactive consistency problem to the classical problem with only crash failures.
 % Then we can use known algorithm in \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} that only tolerates crash failures to reach interactive
 % consistency.
+We have to modify our previous algorithm to tolerate crash failure.  
+In this section, we present first  a modified version of OMIC (called OMWIC)
+that reaches a weakest version of interactive consistency (weak interactive consistency)  
+defined below. Then we use a classical algorithm \cite{lamport1982crash,dolev1982polynomial,dwork1990knowledge} with crash failure in synchronous rounds in which we replace the send/receive by our weak interactive consistency.
 Due to space limitations, algorithms and proofs are moved to appendix~\ref{app:thmCrash}.
 
 %%% Local Variables: 
