@@ -1,5 +1,5 @@
 %!TEX root = synchrony.tex
-\section{Model and Definitions}
+\section{Model and Definitions}\label{model}
  
 We consider a synchronous message-passing distributed system $P$ of $n$ processes. 
 Each process is
@@ -30,7 +30,10 @@ In this paper we assume that processes always follow their protocol.
 
 \subsection{Failure model}
 %\vspace{1em}\noindent{\bf Failures. }
-In short, a faulty process $p$ may lie to other processes: even if $p$ follows its code, $p$ can send to a subset of processes Byzantine messages, i.e., messages that result from $p$ not following the protocol.
+In short, a faulty process $p$ may lie to other processes: even if $p$ follows its code, 
+$p$ can send to a subset of processes Byzantine messages, i.e., 
+%messages that result from $p$ not following the protocol.
+messages that differ from those that $p$ has to sent following its protocol.
 
 More precisely, we assume an adaptive (or dynamic) adversary
 which introduces Byzantine faults in transmission: these faults may
@@ -43,7 +46,7 @@ will carry Byzantine messages.
 
 An instance of our model of $n$ processes with $m$ 
 faulty processes such that in each round up to $d$ communication faults
-on links from faulty processes may occur will be called an {\tmem{$( n,m,d )$-system}. For the results established in this paper, we always assume $m>0$, $d>0$, and $n > 
+on links from faulty processes may occur will be called a {\tmem{$( n,m,d )$-system}. For the results established in this paper, we always assume $m>0$, $d>0$, and $n > 
 max\{m,d\}$. But the model itself does not preclude other cases. We also assume $n>1$, the case $n=1$ being trivial. 
 
 \vspace{1em}
@@ -59,7 +62,7 @@ Following~\cite{lamport1982byzantine,srikanth1987optimal}, with oral messages, t
 sender is always
 authenticated by the receiver. But contrary to messages with
 unforgeable signatures, a process $q$ may make process $p$ believe that $q$ has received
-message $m$ from process $r$ even if it is not true.
+message $\alpha$ from process $r$ even if it is not true.
 %Another important assumption is whether or not the model supports signatures. 
 % We use oral messages and signed messages to model these two situations, 
 % as in\cite{lamport1982byzantine,ST87}. An oral message is the one
@@ -90,9 +93,9 @@ We use $P^{l:k}$ to denote the set of strings of symbols in $P$ of length at lea
 and at most $k$, $P^{+}$ to denote nonempty strings of symbols in $P$
 and $P^{*}$ to denote all the strings including the empty one.
 
- A {\tmem{$k$-round scenario}} (for $(n,m,d)$-system $P$) describes an
+ A {\tmem{$k$-round scenario}} (for a $(n,m,d)$-system $P$) describes an
  execution of the protocol. Intuitively  $\sigma$ describes a 
- communication scheme admissible for a $(n,k,m)$ system.
+ communication scheme admissible for the $(n,k,m)$ system.
  It gives the initial value of each process and the communication scheme.
 It captures the outcome of a $k$-round full information exchange.
 Given scenario $\sigma$, 
@@ -146,13 +149,15 @@ set of mappings from $P^{k}$ into $D$.
 %  if for each $k$-round scenario $\sigma$ and every processes $p
 % \in P$,  $F_{p} ( \sigma_{p} )$ satisfies the specification of the
 % problem.
-Any $k$-round algorithm $\cal A$ defined in an $(n,m,d)$-system
+Any $k$-round algorithm $\cal A$ defined in a $(n,m,d)$-system
 may be defined  on the set of all scenarios; namely as a set $\{ F_{p}
 : p \in P \}$ of functions, 
 where $F_{p} : \mathcal{U}^{k}  \rightarrow O$. 
-Then without loss of generality, we consider in the following only algorithms
-defined this way on the set of all scenarios by a set $\{ F_{p}
-: p \in P \}$ of functions.
+%Then without loss of generality, we consider in the following only algorithms
+%defined this way on the set of all scenarios by a set $\{ F_{p}
+%: p \in P \}$ of functions.
+Then without loss of generality,  in the following we define the  algorithms
+in this way.
 
  $\cal A$ solves a problem 
  if for each $k$-round scenario $\sigma$ and every process $p
@@ -194,7 +199,7 @@ for each $k$-round scenario $\sigma$ and all $p,r
 We will also consider the {\tmem{binary consensus}} problem~\cite{fischer1983consensus}. 
 In this problem, we assume that every process's input value is in $\{0,1\}$
 and its output register contains $\bot$, 0 or 1. $\bot$ means that the
-register has not yet written by the process. 
+register has not yet been written by the process. 
 The value written in the output register is named the decision value.
 The  {\tmem{binary consensus}} problem is defined by the three
 following properties: 

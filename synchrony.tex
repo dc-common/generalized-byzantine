@@ -57,7 +57,7 @@
 
 \begin{abstract}
 
-The classical Byzantine model assumes that a process is either correct and obeys the protocol assigned to it, or is Byzantine and may  behave completely arbitrarily, sending corrupted messages to all processes during its entire execution. In this paper we generalize that model and consider that, in each communication step, some of the processes might send corrupted messages to a \tmem{subset} of the processes. This enables to capture more accurately  practical situations where
+The classical Byzantine model assumes that a process is either correct and obeys the protocol assigned to it, or is Byzantine and may  behave completely arbitrarily, sending corrupted messages to all processes during its entire execution. In this paper we generalize that model and consider that, in each communication step, some of the processes might send corrupted messages to a \tmem{subset} of the processes. This generalization captures more accurately  practical situations where
 processes experience possibly temporary bugs in specific parts of their code. We present this model and prove bounds on the number of correct processes needed to solve the classical interactive consistency and consensus problems.
 
 \end{abstract}
@@ -100,8 +100,7 @@ Alternative approaches rely on randomized algorithms (e.g.
 
 Accounting for the fact that communication failures sometimes dominate
 computation ones (due to high reliability of hardware and operating systems), other models
-focus on communication failures (e.g.
-~{\cite{perry1986distributed,schmid2002formally}}) and hybrid failures
+focus on communication failures (e.g.~{\cite{perry1986distributed,schmid2002formally}}) and hybrid failures
 (e.g.~{\cite{gong1998byzantine,lincoln1993formally}}). Such models
 consider that the Byzantine components are the communication channels instead of 
 (in addition to) the processes.
@@ -153,21 +152,21 @@ Note that if $d=n-1$, our generalized Byzantine model instantiates the classical
 % faulty links and to be dynamic meanwhile.
 
 
-In this paper, we mainly focus on the case when $d<n$.
+In this paper, we mainly focus on the case when $d<n-1$.
 The most important feature in this case is that {\tmem{$d$-faulty}}
 processes always send correct messages to some processes in the system,
 which enables us for instance to solve the \tmem{interactive consistency} problem~\cite{fischer1983consensus}. This problem consists in devising an algorithm
 that allows every process $p$ to decide a value for each process $q$,
 such that: (1) If $p$ and $q$ are correct, then $p$ decides the
 initial value of $q$. (2) All correct processes decide the same
-value for each process. Somehow, $d<n$ implies that the local
+value for each process. Somehow, $d<n-1$ implies that the local
 computation of the processes is always correct and only the
 communication links related to the faulty processes are partially
 controlled by the adversary - during specific rounds.
 In this sense,  we treat all the processes as
 correct ones. (Except in Section 6 where we show how the model 
 can easily encompass crash failures.) 
-In this context {\tmem{interactive consistency}}
+In this context, {\tmem{interactive consistency}}
 means that every process knows the initial value of every other
 process by the end of the computation.
 % As a remark, in a system with
@@ -175,13 +174,13 @@ process by the end of the computation.
 % discover the transmission failures inside the system, for one can know
 % the precise state and communication of the whole system.
 
-Here is a brief summarization of our results.
-We first give the necessary and sufficient
+% Here is a brief summarization of our results.
+We give in the paper the necessary and sufficient
 conditions for reaching interactive consistency with oral and signed
 messages (Table \ref{tab:results}). Our sufficiency proofs are constructive and the algorithms
 we provide are deterministic, while the necessity proofs are based on a 
-scenario argument. We also obtain a tight bound for reaching interactive
-consistency in the case we also consider crash failures.
+scenario argument. We also present a tight bound for reaching interactive
+consistency in the case where we encompass crash failures.
 %We also give a non-trivial upper bound for reaching \tmem{binary consensus} in Section \ref{sec:consensus}.
 
 
@@ -194,13 +193,15 @@ Oral messages & $n> \max \{ 2m+d,2d+m \}$\\
 Signed messages & $n>2d+m$\\
 \hline
 \end{tabular}
-\caption{\label{tab:results}Necessary and sufficient conditions for solving
+\caption{\label{tab:results}Tight bounds  for solving
 interactive consistency with $d$-faulty processes.}
 \end{table}
 
-The rest of the paper is organized as follows. Section 2 describes our system model and the agreement problems we study. In Section 3 (resp. Section 4) we prove a  tight bound for solving interactive consistency  with respect to oral messages (resp. signed messages). The consensus problem is discussed in Section 5. 
-In Section 6, we show that the bounds on interactive consistency are similar if we also consider crash failures. 
-We conclude the paper  in Section 7.
+The rest of the paper is organized as follows. Section~\ref{model} describes our system model and the agreement problems we study. In Section~\ref{oralIC}  (resp. Section~\ref{signedMessage}) 
+we prove a  tight bound for solving interactive consistency  with respect to oral messages (resp. signed messages). 
+The consensus problem is discussed in Section~\ref{sec:consensus}. 
+In Section~\ref{crash}, we show that the bounds on interactive consistency are similar if we encompass crash failures. 
+We summarize the paper and discuss future work in Section 7.
 
 \input{model}
 

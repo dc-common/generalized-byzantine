@@ -17,15 +17,16 @@
   
   We define two scenarios $\alpha$ and $\beta$.
   In $\alpha$, all processes have 0 as initial values.
-  Processes in $B$ are faulty and send  to $C$ processes messages
+  Processes in $B$ are faulty and send  to processes in $C$ messages
   pretending that processes in $A$ have 1 as initial value.
   
    In $\beta$, processes in $A$ have 1 as initial value and all  others processes have 0 as initial value.
-  Processes in $A$ are faulty and send to $C$ messages 
+  Processes in $A$ are faulty and send to processes in $C$ messages 
   pretending that processes in $A$ have 0 as initial value (see Figure~\ref{sc1}).
   
-  In the two scenarios, processes in $C$ get the same messages, but in the first scenario 
-  they have to decide 0 for processes in $A$ and $1$ in the second scenario leading to a contradiction.
+  In the two scenarios, processes in $C$ get the same messages, but they have to decide
+  for processes in $A$ $0$ in the first scenario and $1$ in the second scenario,
+  leading to a contradiction.
     
 More precisely  the scenarios $\alpha$
   and $\beta$ are defined as follows:
@@ -87,8 +88,8 @@ leading to a contradiction.
   Processes in $A$ are faulty and send to processes in $B$ messages 
   pretending that they have 1 as initial value (see Figure~\ref{sc1}).
   
-  In the two scenarios, processes in $B$ and $C$  get the same messages, but in the first scenario 
-  they have to decide 0 for processes in $A$ and $1$ in the second scenario giving the contradiction.
+  In the two scenarios, processes in $B$ and $C$  get the same messages, but they have to decide for processes in $A$ $0$ in the first scenario 
+  and $1$ in the second scenario, leading to a contradiction.
     
 More precisely  the scenarios $\alpha$
   and $\beta$ are defined as follows:
@@ -145,14 +146,13 @@ But for any $a \in A$, $b \in B$, as $F$ is a $k$-round  interactive consistency
   pretending that they have 1 as initial value.
   
 
-  
-    In the two scenarios, processes in $B$ and $C$  get the same messages, but in the first scenario $\alpha$
-  they have to decide 0 for processes in $A$ and $1$ in the second scenario giving the contradiction.
+  In the two scenarios, processes in $B$ and $C$  get the same messages, but they have to decide for processes in $A$ $0$ in the first scenario 
+  and $1$ in the second scenario, leading to a contradiction.
   
   We
   define scenarios $\alpha$ and $\beta$ as follows:
   \begin{enumerateroman}
-    \item For every $w \in P^{+}$ not starting with a member of $A$, let
+    \item For every $w \in P^{+}$ not starting with a member of processes in $A$, let
     \[ \alpha ( w ) = \beta ( w ) =0. \]
     \item For every $a_{1}  \in A^{+}$, $a \in A,b \in B,c
     \in C$, $w \in P^{\ast}$, let
@@ -185,7 +185,7 @@ But for any $a \in A$, $b \in B$, as $F$ is a $k$-round  interactive consistency
 \subsection{Proof of Theorem \ref{thmConsensus}}
 
 \begin{lemma}\label{cons:2}
-If $n\geqslant 2m+2d$, then  OMC(1) achieves  binary consensus in $2$ rounds in an $(n,m,d)$-system.
+If $n\geqslant 2m+2d$, then  OMC(1) achieves  binary consensus in $2$ rounds in a $(n,m,d)$-system.
 \end{lemma}
 
 \begin{proof}
@@ -199,10 +199,10 @@ For any $k\geqslant 1$, if $n>2m+k$, OMC($k$) ensures that the guessed value in 
 \end{lemma}
 
 \begin{proof}
-In the case $k=1$, the guessed value is the output of OMC(0) and  it is equal to the initial value of the correct transmitter since $n-1>2m$. Suppose the lemma is proved for $k-1$. Let us prove it for $k$.
+When $k=1$, the guessed value is the output of OMC(0) and  it is equal to the initial value of the correct transmitter since $n-1>2m$. Suppose the lemma is proved for $k-1$. Let us prove it for $k$.
 
 In OMC($k$), the correct transmitter $i$ first sends its value to the other $n-1$ receivers. 
-By induction hypothesis, the initial value of correct process will be guessed  correctly in OMC($k-1$). 
+By induction, the initial value of correct process will be guessed  correctly in OMC($k-1$). 
 Since there are at least $n-1-m(>m)$ correct receivers, the decision values of all the receivers are the initial value of the transmitter.
 \end{proof}
 
@@ -216,10 +216,10 @@ Note that this lemma is different from Lemma~\ref{mainlemma} in the sense that $
 We proof this lemma by induction on $k$. The basic case $k=1$ is the same as in Lemma~\ref{cons:2}.
 Hence, we suppose the lemma is proved for $k-1$, and we prove it for $k$.
 
-If the transmitter is correct, every receiver decides the same guessed value in step $2$ for $n>2m+d$. 
+If the transmitter is correct, every receiver decides the same guessed value in Step $2$ for $n>2m+d$. 
 If the transmitter is faulty, then
-by induction hypothesis, every receiver  guesses the same value for every transmitter. 
-In the \tmem{feedback step}, the transmitter will receive $n-1$ copies of the guessed value. 
+by induction, every receiver  guesses the same value for every transmitter. 
+In the \tmem{feedback step}, the transmitter receive $n-1$ copies of the guessed value. 
 Since there are at most $m$ faulty receivers, and $n-1>2m$, the transmitter 
 also gets the same guessed value in Step $3$. 
 So the final list $V_i$ is the same for different $i$ proving the agreement property. 
@@ -249,9 +249,9 @@ We prove the theorem by taking $k$ equal to $d$ in Lemma~\ref{cons:corelemma}.
   contributes to several number of true value in majority selection, or
   several copies of $\perp$ which contributes nothing in majority selection
   since the number of $\perp$ is subtracted by $c$. So if $p$ does not crash,
-  in step $3$ of OMIC'(1), the majority value is still $v$. If $p$ crashes in
-  the first round, the value receivers get in step $2$ of OMIC'($1$) is
-  $\perp$. Then in step $3$ every receiver gets at most $m$ values not equal
+  in Step $3$ of OMIC'(1), the majority value is still $v$. If $p$ crashes in
+  the first round, the value receivers get in Step $2$ of OMIC'($1$) is
+  $\perp$. Then in Step $3$ every receiver gets at most $m$ values not equal
   to $\perp$, which makes the majority values to be $\perp$. So in any case,
   interactive consistency is achieved.
 \end{proof}
@@ -271,11 +271,11 @@ We prove the theorem by taking $k$ equal to $d$ in Lemma~\ref{cons:corelemma}.
   Fix a transmitter $p$. If $p$ is correct or $p$ does not crash in the first
   round of OMIC'($k$), $p$ sends its initial value to other $n-1$ receivers
   among which upto $m$ are $d$-faulty and upto $c$ are crash-faulty. These
-  receivers act as transmitter in OMIC'($k-1$). By induction hypothesis, the
+  receivers act as transmitter in OMIC'($k-1$). By induction, the
   receivers that does not crash gets at least $n-1-c-m$ copies of the initial
   value of $p$, and the receivers that might crash can contribute another
   several copies of that initial values. Since $n-1-c-m>m$ the majority value
-  obtained in step $3$ is the initial values of $p$. If $p$ crashes in the
+  obtained in Step $3$ is the initial values of $p$. If $p$ crashes in the
   first round of OMIC'($k$), then this is equal to that the initial value of
   $p$ is $\perp$ when decide the value for $p$. By induction, the lemma is
   still true.
@@ -291,7 +291,7 @@ We prove the theorem by taking $k$ equal to $d$ in Lemma~\ref{cons:corelemma}.
 \end{proof}
 
 \begin{theorem}
-  Interactive consistency can be achieved in an $( n,m,d,c )$-system with oral
+  Interactive consistency can be achieved in a $( n,m,d,c )$-system with oral
   message if and only if $n> \max \{ 2m+d,2d+m \} +c$.
 \end{theorem}
 

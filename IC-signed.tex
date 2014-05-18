@@ -2,13 +2,13 @@
 
 \section{Interactive Consistency With Signed Messages}\label{signedMessage}
 
-In this section we present the tight bound for an $( n,m,d )$-system to
+In this section we present the tight bound for a $( n,m,d )$-system to
 reach \tmem{interactive consistency} with \tmem{signed messages}. In this new setting,
 we have the following main result:
 
 \begin{theorem}
   \label{consensusSigned} It is possible to achieve  interactive consistency
-  in an $( n,m,d )$-system with signed messages  if and only if $n> 2d+m$.
+  in a $( n,m,d )$-system with signed messages  if and only if $n> 2d+m$.
 \end{theorem}
 
 As in the previous section, we rely on $2$ steps to prove this result.  We provide an algorithm, resp. a counterexample,  to prove  the sufficient, resp. the necessary property. 
@@ -22,10 +22,10 @@ In the algorithm, called SMIC, each process $i$ maintains a list $V_{j}$, contai
   \item Every process broadcasts its initial values to all other
   processes (with its signature).
   
-  \item Every process broadcasts the messages received in step $1$ with its 
+  \item Every process broadcasts the messages received in Step $1$ with its 
   signature to all processes.
   
-  \item Every process broadcasts the messages received in step 2 with its 
+  \item Every process broadcasts the messages received in Step $2$ with its 
   signature to all processes.
 \end{enumeratenumeric}
 After this, every process $i$ has received messages like $\sigma ( j k l i
@@ -41,7 +41,7 @@ $i$ decides  for $j$ the
 majority value in $V_{j}$.}}
 
 \begin{lemma}
-  If $n>m+2d$, an  $(n,m,d)$-system can reach interactive consistency with signed
+  If $n>m+2d$, a $(n,m,d)$-system can reach interactive consistency with signed
   messages.
 \end{lemma}
 
@@ -68,7 +68,7 @@ are now impossible. The processes in set $B$ cannot send to processes in set $C$
 where they pretend that the initial values of processes in set $A$ are not the initial value that processes in $A$ have sent.
 
 \begin{lemma}\label{imposs:3}
-  If $n \leqslant m+2d$, it is impossible to achieve interactive consistency in an $(n,m,d)$-system with signed messages.
+  If $n \leqslant m+2d$, it is impossible to achieve interactive consistency in a $(n,m,d)$-system with signed messages.
 \end{lemma}
 
 

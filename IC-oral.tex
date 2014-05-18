@@ -1,11 +1,11 @@
 %!TEX root = synchrony.tex
 \section{Interactive Consistency With Oral Messages}\label{oralIC}
-In this section, we establish the tight bound for an $( n,m,d )$-system to
+In this section, we establish the tight bound for a $( n,m,d )$-system to
 solve \tmem{interactive consistency} with {\tmem{oral messages}}. 
 
 \begin{theorem}
   \label{consensusOral} Interactive consistency can be achieved
-  in an $( n,m,d )$-system with oral messages  if and only if $n> \max \{ 2m+d,2d+m \}$.
+  in a $( n,m,d )$-system with oral messages  if and only if $n> \max \{ 2m+d,2d+m \}$.
 \end{theorem}
 
 The proof of the theorem contains two parts with a series of lemmas. First, we
@@ -27,12 +27,10 @@ OMIC($k$), $k>0$:
   \item Each process acts as a transmitter and sends its value to other
   $n-1$ processes (receivers).
   
-  \item Every receiver process uses the value it gets in step $1$ as initial
+  \item Every receiver process uses the value it gets in Step $1$ as initial
   value, and executes OMIC($k-1$).
-  %for one time to get the value other
-  %receivers get in step $1$.
   
-  \item After running algorithm OMIC($k-1$) in step 2, every receiver
+  \item After running algorithm OMIC($k-1$) in Step 2, every receiver
   process get a vector of values representing what other receivers get from the
   transmitter, and then uses the majority values as its decision on the initial
   value of the transmitter process.
@@ -45,9 +43,9 @@ that wants to transmit its value, and use \tmem{receiver} to denote the process 
 We first consider the correctness of a special case of the algorithm, and then 
 the general case by induction.
 %The considered special case is interesting because it shows that generally, we can get interactive consistency in two rounds.
-More precisely, we show that in an $( n,m,d)$-system, two rounds are enough to achieve interactive consistency as long as 
+More precisely, we show that in a $( n,m,d)$-system, two rounds are enough to achieve interactive consistency as long as 
 $n \geqslant 2 ( m+d )$.
-Additional rounds are necessary only when the number of processes is between $2 ( m+d ) - 1$ and $ \max \{ 2m+d,2d+m \}$. Beyond that, Interactive consistency cannot be achieved.
+Additional rounds are necessary only when the number of processes is between $2 ( m+d ) + 1$ and $ \max \{ 2m+d,2d+m \}-1$. Beyond that, interactive consistency cannot be achieved.
 
 
 \begin{lemma} \label{basicCase}
@@ -91,7 +89,7 @@ In the first round, all receivers get the initial value of the transmitter. In t
   receiver decides the correct initial value of the transmitter.
 
   We assume now the
-  lemma is true for $k-1$ ($k>0$), and prove it for $k$.
+  lemma is true for $k-1$ ($k>1$), and we prove it for $k$.
   
 %  Assume  that $n>2m+k$, then $n>2m+(k-1)$.
 %  By induction hypothesis,  if the transmitter is correct
@@ -112,7 +110,7 @@ In the first round, all receivers get the initial value of the transmitter. In t
 \end{proof}
 
 \begin{lemma}\label{coreLemma}
-  \label{mainlemma}For any $k \geqslant 1$ and $k \leqslant m$, OMIC($k$) ensures
+  \label{mainlemma}For any $k \geqslant 1$ and $m \geqslant k$, OMIC($k$) ensures
   interactive consistency if $n>\max\{2m+k,2m+2d-k\}$.
 \end{lemma}
 
@@ -139,7 +137,7 @@ In the first round, all receivers get the initial value of the transmitter. In t
 
 
 \begin{lemma}\label{algICO1}
-  If $m \geqslant d$ and $n>2m+d$, it is possible to achieve interactive consistency in an $(n,m,d)$-system 
+  If $m \geqslant d$ and $n>2m+d$, it is possible to achieve interactive consistency in a $(n,m,d)$-system 
   in $d+1$ rounds.
 \end{lemma}
 
@@ -150,7 +148,7 @@ In the first round, all receivers get the initial value of the transmitter. In t
 \end{proof}
 
 \begin{lemma}\label{algICO2}
-  If $d \geqslant m$ and $n>2d+m$, it is possible to achieve interactive consistency in an $(n,m,d)$-system 
+  If $d \geqslant m$ and $n>2d+m$, it is possible to achieve interactive consistency in a $(n,m,d)$-system 
  in $m+1$ rounds.
 \end{lemma}
 
@@ -171,7 +169,7 @@ If $m \geqslant d$ we get the result by Lemma~\ref{algICO1} and  if $m<d$ by Lem
 Now let us turn our attention to the necessary property of the theorem. We study two cases: $m \geqslant d$
 and $d \geqslant m$. For each case, we proceed by contradiction.
 We construct two scenarios such that there is a set of processes for which these two scenarios are indistinguishable. 
-In the first scenario they have to decide 0 for that set of processes, while in the second scenario they have to decide 1.
+In the first scenario the processes of that set have to decide 0, while in the second scenario they have to decide 1.
 
 
 
@@ -179,7 +177,7 @@ In the first scenario they have to decide 0 for that set of processes, while in 
 
 
 \begin{lemma}\label{imposs:1}
-  If $m \geqslant d$ and $n \leqslant 2m+d$, it is impossible to achieve interactive consistency in an $(n,m,d)$-system with oral messages.
+  If $m \geqslant d$ and $ 2m+d \geqslant n$, it is impossible to achieve interactive consistency in a $(n,m,d)$-system with oral messages.
   \end{lemma}
 
 Due to space limitations, the proof is moved to Appendix \ref{app:imposs:1}. Here we describe the intuition behind the proof.
@@ -188,7 +186,7 @@ Due to space limitations, the proof is moved to Appendix \ref{app:imposs:1}. Her
   
   We define two scenarios $\alpha$ and $\beta$.
   In $\alpha$, all processes have 0 as initial values.
-  Processes in $B$ are faulty and send  to processes $C$ messages
+  Processes in $B$ are faulty and send  to processes in $C$ messages
   pretending that processes in $A$ have 1 as initial value.
   
   In $\beta$, processes in $A$ have 1 as initial value and all  others processes have 0 as initial value.
@@ -200,7 +198,7 @@ Due to space limitations, the proof is moved to Appendix \ref{app:imposs:1}. Her
 
 
 \begin{lemma}\label{imposs:2}
-  If $d \geqslant m$ and $n \leqslant 2d+m$, it is impossible to achieve interactive consistency in an $(n,m,d)$-system with oral messages.\end{lemma}
+  If $d \geqslant m$ and $2d+m \geqslant n$, it is impossible to achieve interactive consistency in a $(n,m,d)$-system with oral messages.\end{lemma}
 
 The proof of this Lemma is similar to the above one. Due to space limitations, it is moved to Appendix \ref{app:imposs:2}.
 
